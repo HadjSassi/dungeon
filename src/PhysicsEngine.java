@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
-//todo finish the PhysicsEngine Class' methods
-public class PhysicsEngine implements Engine{
+public class PhysicsEngine implements Engine {
 
     private ArrayList<Sprite> environment;
     private ArrayList<DynamicSprite> movingSpriteList;
@@ -11,21 +10,27 @@ public class PhysicsEngine implements Engine{
         this.movingSpriteList = new ArrayList<>();
     }
 
-    public void addToEnvironmentList(Sprite sprite){
-        this.environment.add(sprite);
+    public void addToEnvironmentList(Sprite sprite) {
+        if (!environment.contains(sprite))
+            this.environment.add(sprite);
     }
 
-    public void addToMovingSpriteList(DynamicSprite sprite){
-        this.movingSpriteList.add(sprite);
+    public void addToMovingSpriteList(DynamicSprite sprite) {
+        if (movingSpriteList.contains(sprite))
+            this.movingSpriteList.add(sprite);
     }
 
-    public void setEnvironment(ArrayList<Sprite> environment){
+    public void setEnvironment(ArrayList<Sprite> environment) {
         this.environment = environment;
     }
 
 
     @Override
     public void update() {
-
+        for (DynamicSprite sprite : movingSpriteList) {
+            sprite.moveIfPossible(environment);
+        }
     }
 }
+
+//normally this class is finished

@@ -21,3 +21,5 @@ public class Sprite implements Displayable{
         graphics.drawImage(image, (int) x, (int) y, (int) width, (int) height, null);
     }
 }
+
+//this class is finished

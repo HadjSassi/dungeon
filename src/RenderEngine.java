@@ -1,31 +1,37 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
-//todo finish the RenderEngine class
 public class RenderEngine extends JPanel implements Engine {
 
 
     private ArrayList<Displayable> renderList;
 
     public RenderEngine() {
-
+        renderList = new ArrayList<>();
     }
 
     public void addToRenderList(Displayable displayable) {
-        renderList.add(displayable);
+        if (!renderList.contains(displayable))
+            renderList.add(displayable);
     }
 
     public void addToRenderList(ArrayList<Displayable> displayables) {
-        renderList.addAll(displayables);
+        if (!renderList.containsAll(displayables))
+            renderList.addAll(displayables);
     }
 
 
-    public void paint(){
-
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+        for(Displayable displayable : renderList)
+            displayable.draw(graphics);
     }
 
     @Override
     public void update() {
-
+        this.repaint();
     }
 }
+
+// normally this class is finished
