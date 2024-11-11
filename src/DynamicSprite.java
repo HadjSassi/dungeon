@@ -71,8 +71,15 @@ public class DynamicSprite extends SolidSprite {
             if (sprite instanceof SolidSprite) {
                 if (sprite != this) {
                     if (((SolidSprite) sprite).intersect(anitcipatedMove)) {
-                        isWalking = false;
-                        return false;
+                        if (sprite instanceof LevelSprite) {
+                            System.out.println("bingo");
+                            Main.increaseLevel();
+                            Main.loadNextLevel();
+                        } else {
+                            isWalking = false;
+                            return false;
+                        }
+
                     }
                 }
             }

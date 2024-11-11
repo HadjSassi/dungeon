@@ -12,10 +12,11 @@ public class Playground {
     public Playground(String level) {
         this.environment = new ArrayList<>();
         try {
-            Image grass = ImageIO.read(new File(Main.imagePath + "grass.png"));
-            Image rock = ImageIO.read(new File(Main.imagePath + "rock.png"));
-            Image trap = ImageIO.read(new File(Main.imagePath + "trap.png"));
-            Image tree = ImageIO.read(new File(Main.imagePath + "tree.png"));
+            Image grass = ImageIO.read(new File(Main.getImagePath() + "grass.png"));
+            Image rock = ImageIO.read(new File(Main.getImagePath() + "rock.png"));
+            Image trap = ImageIO.read(new File(Main.getImagePath() + "trap.png"));
+            Image tree = ImageIO.read(new File(Main.getImagePath() + "tree.png"));
+            Image door = ImageIO.read(new File(Main.getImagePath() + "trap.png"));
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(level));
             int row = 0;
@@ -36,6 +37,9 @@ public class Playground {
                         case 'H':
                             environment.add(new SolidSprite(column * trap.getWidth(null), row * trap.getHeight(null), trap.getWidth(null), trap.getHeight(null), trap));
                             break;
+                        case '.':
+                            environment.add(new LevelSprite(column * door.getWidth(null), row * door.getHeight(null), door.getWidth(null), door.getHeight(null), door));
+                            break;
                     }
                     column++;
                 }
@@ -46,7 +50,7 @@ public class Playground {
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -54,17 +58,13 @@ public class Playground {
         ArrayList<Sprite> solidSpriteList = new ArrayList<>();
         for (Sprite sprite : this.environment) {
             if (sprite instanceof SolidSprite) {
-                solidSpriteList.add((SolidSprite) sprite);
+                solidSpriteList.add(sprite);
             }
         }
         return solidSpriteList;
     }
 
     public ArrayList<Displayable> getSpriteList() {
-        ArrayList<Displayable> spriteList = new ArrayList<>();
-        for (Sprite sprite : this.environment) {
-            spriteList.add((Displayable) sprite);
-        }
-        return spriteList;
+        return new ArrayList<>(this.environment);
     }
 }
