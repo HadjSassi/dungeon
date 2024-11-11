@@ -27,7 +27,6 @@ public class PhysicsEngine implements Engine {
 
     @Override
     public void update() {
-        //todo i guess this is not correct!
         for (DynamicSprite sprite : movingSpriteList) {
             sprite.moveIfPossible(environment);
         }

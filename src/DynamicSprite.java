@@ -29,9 +29,11 @@ public class DynamicSprite extends SolidSprite {
 
     @Override
     public void draw(Graphics graphics) {
+        int dynamicSpriteImage = 0;
+        if (isWalking) {
+            dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
 
-        int dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
-
+        }
         graphics.drawImage(
                 image, (int) x, (int) y, (int) (x + width), (int) (y + height),
                 (int) (dynamicSpriteImage * this.width), (int) (direction.getFrameLineNumber() * height),
@@ -68,12 +70,14 @@ public class DynamicSprite extends SolidSprite {
         for (Sprite sprite : environment) {
             if (sprite instanceof SolidSprite) {
                 if (sprite != this) {
-                    if (((SolidSprite) sprite).intersect(anitcipatedMove))
+                    if (((SolidSprite) sprite).intersect(anitcipatedMove)) {
+                        isWalking = false;
                         return false;
+                    }
                 }
             }
         }
-
+        isWalking = true;
         return true;
     }
 
