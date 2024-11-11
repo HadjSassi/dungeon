@@ -16,7 +16,7 @@ public class PhysicsEngine implements Engine {
     }
 
     public void addToMovingSpriteList(DynamicSprite sprite) {
-        if (movingSpriteList.contains(sprite))
+        if (!movingSpriteList.contains(sprite))
             this.movingSpriteList.add(sprite);
     }
 
@@ -27,10 +27,9 @@ public class PhysicsEngine implements Engine {
 
     @Override
     public void update() {
+        //todo i guess this is not correct!
         for (DynamicSprite sprite : movingSpriteList) {
             sprite.moveIfPossible(environment);
         }
     }
 }
-
-//normally this class is finished

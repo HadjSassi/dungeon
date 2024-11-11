@@ -15,13 +15,13 @@ public class Main {
 
     public Main() throws Exception {
         Playground level1 = new Playground(dataPath+"level1.txt");
-        DynamicSprite hero = new DynamicSprite(200,300,50,50,ImageIO.read(new File(imagePath+"heroTileSheetLowRes.png")));
+        DynamicSprite hero = new DynamicSprite(200,300,48,50,ImageIO.read(new File(imagePath+"heroTileSheetLowRes.png")));
         renderEngine = new RenderEngine();
         physicsEngine = new PhysicsEngine();
         gameEngine = new GameEngine(hero);
 
         displayZoneFrame = new JFrame();
-        displayZoneFrame.setTitle("Level 1");
+        displayZoneFrame.setTitle("Dungeon");
         displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Timer renderTimer = new Timer(50,(time)-> renderEngine.update());

@@ -1,7 +1,7 @@
 public enum Direction {
-    EAST(2),
-    NORTH(0),
-    SOUTH(3),
+    EAST(3),
+    NORTH(2),
+    SOUTH(0),
     WEST(1);
 
     private final int frameLineNumber;

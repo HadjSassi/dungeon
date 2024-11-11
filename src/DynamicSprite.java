@@ -12,10 +12,10 @@ public class DynamicSprite extends SolidSprite {
     public DynamicSprite(double x, double y, double width, double height, Image image) {
         super(x, y, width, height, image);
         this.isWalking = false;
-        this.speed = 1 ;
+        this.speed = 5;
         this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
-        this.timeBetweenFrame = 50;
-        this.direction = Direction.NORTH;
+        this.timeBetweenFrame = 100;
+        this.direction = Direction.EAST;
     }
 
     public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction) {
@@ -29,12 +29,13 @@ public class DynamicSprite extends SolidSprite {
 
     @Override
     public void draw(Graphics graphics) {
-        //todo try when is not moving stops moving the sprite
-        int dynamicSpriteImage= (int) (System.currentTimeMillis()/timeBetweenFrame%spriteSheetNumberOfColumn);
+
+        int dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
+
         graphics.drawImage(
-            image,(int)x,(int)y,(int)(x+width), (int)(y+height),
-                (int) (dynamicSpriteImage*this.width), (int)(direction.getFrameLineNumber()*height),
-                (int) ((dynamicSpriteImage+1)*this.width), (int)((direction.getFrameLineNumber()+1)*this.height),null
+                image, (int) x, (int) y, (int) (x + width), (int) (y + height),
+                (int) (dynamicSpriteImage * this.width), (int) (direction.getFrameLineNumber() * height),
+                (int) ((dynamicSpriteImage + 1) * this.width), (int) ((direction.getFrameLineNumber() + 1) * this.height), null
         );
     }
 
@@ -79,10 +80,10 @@ public class DynamicSprite extends SolidSprite {
     private void move() {
         switch (direction) {
             case NORTH:
-                this.y += speed;
+                this.y -= speed;
                 break;
             case SOUTH:
-                this.y -= speed;
+                this.y += speed;
                 break;
             case EAST:
                 this.x += speed;

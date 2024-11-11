@@ -33,8 +33,7 @@ public class Playground {
                         case 'R':
                             environment.add(new SolidSprite(column * rock.getWidth(null), row * rock.getHeight(null), rock.getWidth(null), rock.getHeight(null), rock));
                             break;
-                        // I suppose that the trap symbol is X
-                        case 'X':
+                        case 'H':
                             environment.add(new SolidSprite(column * trap.getWidth(null), row * trap.getHeight(null), trap.getWidth(null), trap.getHeight(null), trap));
                             break;
                     }
@@ -69,5 +68,3 @@ public class Playground {
         return spriteList;
     }
 }
-
-// we need to check the trap symbol
