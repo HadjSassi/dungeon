@@ -1,6 +1,3 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 public class AiEngine implements Engine {
 
     private DynamicSprite monster;
@@ -22,7 +19,7 @@ public class AiEngine implements Engine {
         double deltaX = heroX - monsterX;
         double deltaY = heroY - monsterY;
 
-        if(5 > deltaX && 5 > deltaY){
+        if(2 > deltaX && 2 > deltaY){
             monster.setDirection(hero.getDirection());
         }
         else if (Math.abs(deltaX) > Math.abs(deltaY)) {
@@ -38,7 +35,24 @@ public class AiEngine implements Engine {
                 monster.setDirection(Direction.NORTH);
             }
         }
+        if(!monster.isWalking()){
+            changeBlockedDirection();
+        }
 
+    }
+
+
+    private void changeBlockedDirection() {
+        Direction currentDirection = monster.getDirection();
+        Direction newDirection;
+
+        if (currentDirection == Direction.NORTH || currentDirection == Direction.SOUTH) {
+            newDirection = Math.random() < 0.5 ? Direction.EAST : Direction.WEST;
+        } else {
+            newDirection = Math.random() < 0.5 ? Direction.NORTH : Direction.SOUTH;
+        }
+
+        monster.setDirection(newDirection);
     }
 
 }

@@ -8,6 +8,7 @@ public class DynamicSprite extends SolidSprite {
     private int spriteSheetNumberOfColumn;
     private double timeBetweenFrame;
     private Direction direction;
+    private double health;
 
     public DynamicSprite(double x, double y, double width, double height, Image image) {
         super(x, y, width, height, image);
@@ -16,6 +17,7 @@ public class DynamicSprite extends SolidSprite {
         this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
         this.timeBetweenFrame = 100;
         this.direction = Direction.EAST;
+        this.health = 100;
     }
 
     public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction) {
@@ -25,10 +27,24 @@ public class DynamicSprite extends SolidSprite {
         this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
         this.timeBetweenFrame = timeBetweenFrame;
         this.direction = direction;
+        this.health = 100;
     }
 
     @Override
     public void draw(Graphics graphics) {
+        int barWidth = (int) width;
+        int barHeight = 5;
+        int healthBarX = (int) x;
+        int healthBarY = (int) y - barHeight - 2;
+
+        int healthBarWidth = (int) (barWidth * (health / 100.0));
+
+        graphics.setColor(Color.GRAY);
+        graphics.fillRect(healthBarX, healthBarY, barWidth, barHeight);
+
+        graphics.setColor(Color.RED);
+        graphics.fillRect(healthBarX, healthBarY, healthBarWidth, barHeight);
+
         int dynamicSpriteImage = 0;
         if (isWalking) {
             dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
@@ -114,6 +130,10 @@ public class DynamicSprite extends SolidSprite {
 
     public double getSpeed() {
         return speed;
+    }
+
+    public boolean isWalking() {
+        return isWalking;
     }
 
 }
