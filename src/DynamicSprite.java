@@ -50,6 +50,10 @@ public class DynamicSprite extends SolidSprite {
         this.direction = direction;
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
     private boolean isMovingPossible(ArrayList<Sprite> environment) {
         Rectangle2D.Double anitcipatedMove = new Rectangle2D.Double();
         switch (direction) {
@@ -111,5 +115,6 @@ public class DynamicSprite extends SolidSprite {
     public double getSpeed() {
         return speed;
     }
+
 }
 

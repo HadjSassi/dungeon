@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Sprite implements Displayable{
+public class Sprite implements Displayable {
 
     protected double height;
     protected Image image;
@@ -15,6 +15,16 @@ public class Sprite implements Displayable{
         this.height = height;
         this.image = image;
     }
+
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
 
     @Override
     public void draw(Graphics graphics) {
