@@ -1,6 +1,6 @@
-add pictures
 add monster with the label M
 the monster using AI to catch the hero
 add a life bar above the hero
 if a monster touches the hero the life bar decreases
 if the game stops and the hero has life bar 0 then a popup of failure shows
+add musics
