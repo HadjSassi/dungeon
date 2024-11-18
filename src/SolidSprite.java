@@ -8,7 +8,7 @@ public class SolidSprite extends Sprite {
     }
 
     public Rectangle2D getHitBox(){
-        return new Rectangle2D.Double(x,y,width,height);
+        return new Rectangle2D.Double(x,y,width-5,height-20);
     }
 
     public boolean intersect(Rectangle2D.Double rect) {

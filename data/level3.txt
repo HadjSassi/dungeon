@@ -5,5 +5,5 @@ T  R T
 T H  R.
 T R  T
 T H RT
-T T  T
+T T  G
 HTTRHH

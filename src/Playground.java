@@ -17,6 +17,7 @@ public class Playground {
             Image trap = ImageIO.read(new File(Main.getImagePath() + "trap.png"));
             Image tree = ImageIO.read(new File(Main.getImagePath() + "tree.png"));
             Image door = ImageIO.read(new File(Main.getImagePath() + "trap.png"));
+            Image gate = ImageIO.read(new File(Main.getImagePath() + "trap.png"));
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(level));
             int row = 0;
@@ -39,6 +40,10 @@ public class Playground {
                             break;
                         case '.':
                             environment.add(new LevelSprite(column * door.getWidth(null), row * door.getHeight(null), door.getWidth(null), door.getHeight(null), door));
+                            break;
+                        case 'G':
+                            environment.add(new LevelSprite(column * gate.getWidth(null), row * gate.getHeight(null), gate.getWidth(null), gate.getHeight(null), gate,true));
+
                             break;
                     }
                     column++;
