@@ -9,6 +9,7 @@ public class DynamicSprite extends SolidSprite {
     private double timeBetweenFrame;
     private Direction direction;
     private double health;
+    private boolean isHero;
 
     public DynamicSprite(double x, double y, double width, double height, Image image) {
         super(x, y, width, height, image);
@@ -18,6 +19,19 @@ public class DynamicSprite extends SolidSprite {
         this.timeBetweenFrame = 100;
         this.direction = Direction.EAST;
         this.health = 100;
+        this.isHero = false;
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, double health) {
+        super(x, y, width, height, image);
+        this.isWalking = false;
+        this.speed = 5;
+        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
+        this.timeBetweenFrame = 100;
+        this.direction = Direction.EAST;
+        this.isHero = false;
+        this.health = health;
+
     }
 
     public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction) {
@@ -28,6 +42,63 @@ public class DynamicSprite extends SolidSprite {
         this.timeBetweenFrame = timeBetweenFrame;
         this.direction = direction;
         this.health = 100;
+        this.isHero = false;
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health) {
+        super(x, y, width, height, image);
+        this.isWalking = isWalking;
+        this.speed = speed;
+        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
+        this.timeBetweenFrame = timeBetweenFrame;
+        this.direction = direction;
+        this.health = health;
+        this.isHero = false;
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isHero) {
+        super(x, y, width, height, image);
+        this.isWalking = false;
+        this.speed = 5;
+        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
+        this.timeBetweenFrame = 100;
+        this.direction = Direction.EAST;
+        this.health = 100;
+        this.isHero = isHero;
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, double health, boolean isHero) {
+        super(x, y, width, height, image);
+        this.isWalking = false;
+        this.speed = 5;
+        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
+        this.timeBetweenFrame = 100;
+        this.direction = Direction.EAST;
+        this.isHero = isHero;
+        this.health = health;
+
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero) {
+        super(x, y, width, height, image);
+        this.isWalking = isWalking;
+        this.speed = speed;
+        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
+        this.timeBetweenFrame = timeBetweenFrame;
+        this.direction = direction;
+        this.health = 100;
+        this.isHero = isHero;
+    }
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health, boolean isHero) {
+        super(x, y, width, height, image);
+        this.isWalking = isWalking;
+        this.speed = speed;
+        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
+        this.timeBetweenFrame = timeBetweenFrame;
+        this.direction = direction;
+        this.health = health;
+        this.isHero = isHero;
     }
 
     @Override
@@ -88,6 +159,15 @@ public class DynamicSprite extends SolidSprite {
         }
 
         for (Sprite sprite : environment) {
+            if (isHero && sprite instanceof MalusSprite && ((MalusSprite) sprite).intersect(anitcipatedMove)) {
+                this.setHealth(this.health - ((MalusSprite) sprite).getDamage());
+                Main.setOldHeroHealth(this.health);
+            }
+            if (isHero && sprite instanceof BonusSprite && ((BonusSprite) sprite).intersect(anitcipatedMove)) {
+                this.setHealth(this.health + ((BonusSprite) sprite).getBonusValue());
+                Main.setOldHeroHealth(this.health);
+                //todo if the bonus is limited then remove it from the sprite list and repaint.
+            }
             if (sprite instanceof SolidSprite) {
                 if (sprite != this) {
                     if (((SolidSprite) sprite).intersect(anitcipatedMove)) {
@@ -134,6 +214,15 @@ public class DynamicSprite extends SolidSprite {
 
     public boolean isWalking() {
         return isWalking;
+    }
+
+    public double getHealth() {
+        return health;
+    }
+
+    private void setHealth(double health) {
+        if (health > 0 && health < 100)
+            this.health = health;
     }
 
 }

@@ -18,6 +18,7 @@ public class Playground {
             Image tree = ImageIO.read(new File(Main.getImagePath() + "tree.png"));
             Image door = ImageIO.read(new File(Main.getImagePath() + "door.png"));
             Image gate = ImageIO.read(new File(Main.getImagePath() + "gate.png"));
+            Image heart = ImageIO.read(new File(Main.getImagePath() + "heart.png"));
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(level));
             int row = 0;
@@ -36,7 +37,7 @@ public class Playground {
                             environment.add(new SolidSprite(column * rock.getWidth(null), row * rock.getHeight(null), rock.getWidth(null), rock.getHeight(null), rock));
                             break;
                         case 'H':
-                            environment.add(new SolidSprite(column * trap.getWidth(null), row * trap.getHeight(null), trap.getWidth(null), trap.getHeight(null), trap));
+                            environment.add(new MalusSprite(column * trap.getWidth(null), row * trap.getHeight(null), trap.getWidth(null), trap.getHeight(null), trap));
                             break;
                         case '.':
                             environment.add(new LevelSprite(column * door.getWidth(null), row * door.getHeight(null), door.getWidth(null), door.getHeight(null), door));
@@ -45,8 +46,10 @@ public class Playground {
                             environment.add(new Sprite(column * door.getWidth(null), row * door.getHeight(null), door.getWidth(null), door.getHeight(null), door));
                             break;
                         case 'G':
-                            environment.add(new LevelSprite(column * gate.getWidth(null), row * gate.getHeight(null), gate.getWidth(null), gate.getHeight(null), gate,true));
-
+                            environment.add(new LevelSprite(column * gate.getWidth(null), row * gate.getHeight(null), gate.getWidth(null), gate.getHeight(null), gate, true));
+                            break;
+                        case '+':
+                            environment.add(new BonusSprite(column * heart.getWidth(null), row * heart.getHeight(null), heart.getWidth(null), heart.getHeight(null), heart,true,10));
                             break;
                     }
                     column++;

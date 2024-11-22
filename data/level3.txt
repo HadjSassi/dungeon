@@ -1,5 +1,5 @@
 RRRRRR
-T    T
+T +  T
 T H  T
 T  R T
 T H  R.

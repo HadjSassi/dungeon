@@ -2,10 +2,12 @@ public class AiEngine implements Engine {
 
     private DynamicSprite monster;
     private DynamicSprite hero;
+    private boolean catching;
 
     public AiEngine(DynamicSprite monster, DynamicSprite hero) {
         this.monster = monster;
         this.hero = hero;
+        this.catching = true;
     }
 
 
@@ -18,11 +20,11 @@ public class AiEngine implements Engine {
 
         double deltaX = heroX - monsterX;
         double deltaY = heroY - monsterY;
-
-        if(2 > deltaX && 2 > deltaY){
+        if (4 >= Math.abs(deltaX) && 4 >= Math.abs(deltaY)) {
+            //todo stop the monster to change direction or to stop from moving
+            catching = false;
             monster.setDirection(hero.getDirection());
-        }
-        else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        } else if (catching  && Math.abs(deltaX) > Math.abs(deltaY)) {
             if (deltaX > 0) {
                 monster.setDirection(Direction.EAST);
             } else {
@@ -35,7 +37,7 @@ public class AiEngine implements Engine {
                 monster.setDirection(Direction.NORTH);
             }
         }
-        if(!monster.isWalking()){
+        if (!monster.isWalking()) {
             changeBlockedDirection();
         }
 
