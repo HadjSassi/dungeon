@@ -128,8 +128,8 @@ public class DynamicSprite extends SolidSprite {
         );
     }
 
-    public void moveIfPossible(ArrayList<Sprite> environment) {
-        if (isMovingPossible(environment))
+    public void moveIfPossible(ArrayList<Sprite> environment, ArrayList<DynamicSprite> dynamicSprites) {
+        if (isMovingPossible(environment, dynamicSprites))
             move();
     }
 
@@ -141,7 +141,7 @@ public class DynamicSprite extends SolidSprite {
         return direction;
     }
 
-    private boolean isMovingPossible(ArrayList<Sprite> environment) {
+    private boolean isMovingPossible(ArrayList<Sprite> environment, ArrayList<DynamicSprite> dynamicSprites) {
         Rectangle2D.Double anitcipatedMove = new Rectangle2D.Double();
         switch (direction) {
             case NORTH:
@@ -158,6 +158,13 @@ public class DynamicSprite extends SolidSprite {
                 break;
         }
 
+        for (DynamicSprite sprite : dynamicSprites) {
+            if (isHero && !sprite.isHero &&sprite.intersect(anitcipatedMove)) {
+                this.setHealth(this.health - Main.getLevelNumber());
+                Main.setOldHeroHealth(this.health);
+            }
+        }
+
         for (Sprite sprite : environment) {
             if (isHero && sprite instanceof MalusSprite && ((MalusSprite) sprite).intersect(anitcipatedMove)) {
                 this.setHealth(this.health - ((MalusSprite) sprite).getDamage());
@@ -167,6 +174,7 @@ public class DynamicSprite extends SolidSprite {
                 this.setHealth(this.health + ((BonusSprite) sprite).getBonusValue());
                 Main.setOldHeroHealth(this.health);
                 //todo if the bonus is limited then remove it from the sprite list and repaint.
+
             }
             if (sprite instanceof SolidSprite) {
                 if (sprite != this) {
