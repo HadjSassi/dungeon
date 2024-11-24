@@ -11,6 +11,8 @@ public class DynamicSprite extends SolidSprite {
     private double health;
     private boolean isHero;
 
+/*
+    // Constructors !
     public DynamicSprite(double x, double y, double width, double height, Image image) {
         super(x, y, width, height, image);
         this.isWalking = false;
@@ -67,8 +69,20 @@ public class DynamicSprite extends SolidSprite {
         this.isHero = isHero;
     }
 
-    public DynamicSprite(double x, double y, double width, double height, Image image, double health, boolean isHero) {
+    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health, boolean isHero) {
         super(x, y, width, height, image);
+        this.isWalking = isWalking;
+        this.speed = speed;
+        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
+        this.timeBetweenFrame = timeBetweenFrame;
+        this.direction = direction;
+        this.health = health;
+        this.isHero = isHero;
+    }
+*/
+
+    public DynamicSprite(double x, double y, double width, double height, Image image, String name, double health, boolean isHero) {
+        super(x, y, width, height, image, name);
         this.isWalking = false;
         this.speed = 5;
         this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
@@ -79,25 +93,14 @@ public class DynamicSprite extends SolidSprite {
 
     }
 
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero) {
-        super(x, y, width, height, image);
+    public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero) {
+        super(x, y, width, height, image, name);
         this.isWalking = isWalking;
         this.speed = speed;
         this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
         this.timeBetweenFrame = timeBetweenFrame;
         this.direction = direction;
         this.health = 100;
-        this.isHero = isHero;
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health, boolean isHero) {
-        super(x, y, width, height, image);
-        this.isWalking = isWalking;
-        this.speed = speed;
-        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
-        this.timeBetweenFrame = timeBetweenFrame;
-        this.direction = direction;
-        this.health = health;
         this.isHero = isHero;
     }
 
@@ -159,7 +162,7 @@ public class DynamicSprite extends SolidSprite {
         }
 
         for (DynamicSprite sprite : dynamicSprites) {
-            if (isHero && !sprite.isHero &&sprite.intersect(anitcipatedMove)) {
+            if (isHero && !sprite.isHero && sprite.intersect(anitcipatedMove)) {
                 this.setHealth(this.health - Main.getLevelNumber());
                 Main.setOldHeroHealth(this.health);
             }
@@ -169,11 +172,15 @@ public class DynamicSprite extends SolidSprite {
             if (isHero && sprite instanceof MalusSprite && ((MalusSprite) sprite).intersect(anitcipatedMove)) {
                 this.setHealth(this.health - ((MalusSprite) sprite).getDamage());
                 Main.setOldHeroHealth(this.health);
+                return true;
             }
             if (isHero && sprite instanceof BonusSprite && ((BonusSprite) sprite).intersect(anitcipatedMove)) {
                 this.setHealth(this.health + ((BonusSprite) sprite).getBonusValue());
                 Main.setOldHeroHealth(this.health);
-                //todo if the bonus is limited then remove it from the sprite list and repaint.
+                if (((BonusSprite) sprite).isLimited()) {
+                    ((BonusSprite) sprite).collect();
+                    return true;
+                }
 
             }
             if (sprite instanceof SolidSprite) {

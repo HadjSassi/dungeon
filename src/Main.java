@@ -34,9 +34,14 @@ public class Main {
         displayZoneFrame.setSize(400, 600);
     }
 
+    public static RenderEngine getRenderEngine() {
+        return renderEngine;
+    }
+
     public static void setOldHeroHealth(double oldHeroHealth) {
         Main.oldHeroHealth = oldHeroHealth;
     }
+
     public static void increaseLevel() {
         levelNumber++;
     }
@@ -52,14 +57,14 @@ public class Main {
     public static void loadNextLevel() {
         try {
             Playground newLevel = new Playground(dataPath + "level" + levelNumber + ".txt");
-            DynamicSprite hero = new DynamicSprite(200, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")),oldHeroHealth,true);
-            DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")),
-                    false, levelNumber*4, 10, 100, Direction.SOUTH,false);
+            DynamicSprite hero = new DynamicSprite(200, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")),"Hero", oldHeroHealth, true);
+            DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")),"Monster",
+                    false, levelNumber , 10, 100, Direction.SOUTH, false);
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();
             gameEngine = new GameEngine(hero);
-            aiEngine = new AiEngine(monster,hero);
+            aiEngine = new AiEngine(monster, hero);
 
             // Stop existing timers, if any
             if (renderTimer != null) {

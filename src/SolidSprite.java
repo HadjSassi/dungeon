@@ -3,8 +3,8 @@ import java.awt.geom.Rectangle2D;
 
 public class SolidSprite extends Sprite {
 
-    public SolidSprite(double x, double y, double width, double height, Image image) {
-        super(x, y, width, height, image);
+    public SolidSprite(double x, double y, double width, double height, Image image, String name) {
+        super(x, y, width, height, image, name);
     }
 
     public Rectangle2D getHitBox(){

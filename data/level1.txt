@@ -1,3 +1,4 @@
++[]
 TTTTTT
 T    T
 T R  T
