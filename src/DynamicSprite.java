@@ -236,8 +236,15 @@ public class DynamicSprite extends SolidSprite {
     }
 
     private void setHealth(double health) {
-        if (health > 0 && health < 100)
+        if (health >= 0 && health <= 100)
             this.health = health;
+        checkIfDead();
+    }
+
+    private void checkIfDead() {
+        if(isHero && this.health == 0) {
+            Main.perdre();
+        }
     }
 
 }

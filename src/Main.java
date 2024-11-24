@@ -130,7 +130,31 @@ public class Main {
         }
     }
 
+    public static void perdre() {
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
+        if (physicTimer != null) {
+            physicTimer.stop();
+        }
+        if (renderTimer != null) {
+            renderTimer.stop();
+        }
+        int choice = JOptionPane.showOptionDialog(null, "Ouch!, you Lost unfortunately!",
+                "The End!", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE, null,
+                new Object[]{"Exit", "Retry"}, "Retry");
+
+        if (choice == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        } else {
+            levelNumber = 1;
+            loadNextLevel();
+        }
+    }
+
     public static void main(String[] args) {
         new Main();
     }
+
 }
