@@ -12,8 +12,8 @@ public class GameEngine implements KeyListener, Engine {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()){
-            case KeyEvent.VK_UP :
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
                 hero.setDirection(Direction.NORTH);
                 break;
             case KeyEvent.VK_DOWN:
@@ -25,13 +25,21 @@ public class GameEngine implements KeyListener, Engine {
             case KeyEvent.VK_RIGHT:
                 hero.setDirection(Direction.EAST);
                 break;
+            case KeyEvent.VK_SHIFT:
+                hero.speedUp();
+                break;
+            case KeyEvent.VK_SPACE:
+                hero.attack();
+                break;
 
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            hero.speedDown();
+        }
     }
 
     @Override

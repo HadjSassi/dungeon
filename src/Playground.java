@@ -65,7 +65,7 @@ public class Playground {
                 line = bufferedReader.readLine();
             }
             for (Point p : heartPositions) {
-                environment.add(new BonusSprite(p.x * heart.getWidth(null), p.y * heart.getHeight(null), heart.getWidth(null), heart.getHeight(null), heart, "heart", true, 10));
+                environment.add(new BonusSprite(p.x * heart.getWidth(null), p.y * heart.getHeight(null), heart.getWidth(null), heart.getHeight(null), heart, "heart", true, 30));
             }
 
         } catch (Exception e) {

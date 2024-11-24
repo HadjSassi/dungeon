@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class DynamicSprite extends SolidSprite {
     private boolean isWalking;
     private double speed;
+    private double oldSpeed;
     private int spriteSheetNumberOfColumn;
     private double timeBetweenFrame;
     private Direction direction;
@@ -85,6 +86,7 @@ public class DynamicSprite extends SolidSprite {
         super(x, y, width, height, image, name);
         this.isWalking = false;
         this.speed = 5;
+        this.oldSpeed = 5;
         this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
         this.timeBetweenFrame = 100;
         this.direction = Direction.EAST;
@@ -96,6 +98,7 @@ public class DynamicSprite extends SolidSprite {
     public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero) {
         super(x, y, width, height, image, name);
         this.isWalking = isWalking;
+        this.oldSpeed = speed;
         this.speed = speed;
         this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
         this.timeBetweenFrame = timeBetweenFrame;
@@ -242,10 +245,22 @@ public class DynamicSprite extends SolidSprite {
     }
 
     private void checkIfDead() {
-        if(isHero && this.health == 0) {
+        if (isHero && this.health == 0) {
             Main.perdre();
         }
     }
 
+    public void attack() {
+        System.out.println("Attacking!");
+    }
+
+    public void speedUp() {
+
+        this.speed = oldSpeed * 1.5;
+    }
+
+    public void speedDown() {
+        this.speed = oldSpeed;
+    }
 }
 
