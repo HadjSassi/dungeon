@@ -289,7 +289,7 @@ public class DynamicSprite extends SolidSprite {
             Main.perdre();
         }
         if(!isHero && this.health == 0){
-
+            Main.increaseScore();
         }
     }
 

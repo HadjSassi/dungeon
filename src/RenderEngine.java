@@ -26,6 +26,13 @@ public class RenderEngine extends JPanel implements Engine {
         super.paint(graphics);
         for(Displayable displayable : renderList)
             displayable.draw(graphics);
+
+        graphics.setColor(Color.BLACK);
+        graphics.setFont(new Font("Arial", Font.BOLD, 20));
+        String scoreText = "SCORE: " + Main.getScore();
+        FontMetrics metrics = graphics.getFontMetrics(graphics.getFont());
+        int x = (getWidth() - metrics.stringWidth(scoreText)) / 2; // Centrer horizontalement
+        graphics.drawString(scoreText, x, 30);
     }
 
     @Override

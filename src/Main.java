@@ -7,7 +7,7 @@ public class Main {
     private final static String imagePath = "./img/";
     private final static String dataPath = "./data/";
     private static int levelNumber = 1;
-
+    private static int score = 0;
     private static JFrame displayZoneFrame;
 
     private static AiEngine aiEngine;
@@ -57,9 +57,9 @@ public class Main {
     public static void loadNextLevel() {
         try {
             Playground newLevel = new Playground(dataPath + "level" + levelNumber + ".txt");
-            DynamicSprite hero = new DynamicSprite(60, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")),"Hero", oldHeroHealth, true);
-            DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")),"Monster",
-                    false, levelNumber , 10, 100, Direction.SOUTH, false,10);
+            DynamicSprite hero = new DynamicSprite(60, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")), "Hero", oldHeroHealth, true);
+            DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")), "Monster",
+                    false, levelNumber, 10, 100, Direction.SOUTH, false, 10);
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();
@@ -149,12 +149,24 @@ public class Main {
             System.exit(0);
         } else {
             levelNumber = 1;
+            oldHeroHealth = 100;
             loadNextLevel();
         }
+    }
+
+    public static int getScore() {
+        return score;
+    }
+
+    public static void setScore(int newScore) {
+        score = newScore;
     }
 
     public static void main(String[] args) {
         new Main();
     }
 
+    public static void increaseScore() {
+        score++;
+    }
 }
