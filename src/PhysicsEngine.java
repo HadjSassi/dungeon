@@ -2,28 +2,31 @@ import java.util.ArrayList;
 
 public class PhysicsEngine implements Engine {
 
-    private ArrayList<Sprite> environment;
-    private ArrayList<DynamicSprite> movingSpriteList;
+    private static ArrayList<Sprite> environment;
+    private static ArrayList<DynamicSprite> movingSpriteList;
 
     public PhysicsEngine() {
-        this.environment = new ArrayList<>();
-        this.movingSpriteList = new ArrayList<>();
+        environment = new ArrayList<>();
+        movingSpriteList = new ArrayList<>();
     }
 
     public void addToEnvironmentList(Sprite sprite) {
         if (!environment.contains(sprite))
-            this.environment.add(sprite);
+            environment.add(sprite);
     }
 
     public void addToMovingSpriteList(DynamicSprite sprite) {
         if (!movingSpriteList.contains(sprite))
-            this.movingSpriteList.add(sprite);
+            movingSpriteList.add(sprite);
     }
 
     public void setEnvironment(ArrayList<Sprite> environment) {
-        this.environment = environment;
+        PhysicsEngine.environment = environment;
     }
 
+    public static ArrayList<DynamicSprite> getDynamicSpriteList() {
+        return movingSpriteList;
+    }
 
     @Override
     public void update() {

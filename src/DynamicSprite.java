@@ -1,6 +1,9 @@
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class DynamicSprite extends SolidSprite {
     private boolean isWalking;
@@ -11,6 +14,11 @@ public class DynamicSprite extends SolidSprite {
     private Direction direction;
     private double health;
     private boolean isHero;
+    private boolean isAttacking;
+    private float attackOpacity;
+    private double attackRadius;
+    private double attackValue;
+    private boolean isAlive;
 
 /*
     // Constructors !
@@ -87,15 +95,18 @@ public class DynamicSprite extends SolidSprite {
         this.isWalking = false;
         this.speed = 5;
         this.oldSpeed = 5;
-        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
+        this.spriteSheetNumberOfColumn = 10;
         this.timeBetweenFrame = 100;
         this.direction = Direction.EAST;
         this.isHero = isHero;
         this.health = health;
-
+        this.isAttacking = false;
+        this.attackOpacity = 1.0f;
+        this.attackValue = 30;
+        this.isAlive = true;
     }
 
-    public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero) {
+    public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero, double attackValue) {
         super(x, y, width, height, image, name);
         this.isWalking = isWalking;
         this.oldSpeed = speed;
@@ -105,33 +116,52 @@ public class DynamicSprite extends SolidSprite {
         this.direction = direction;
         this.health = 100;
         this.isHero = isHero;
+        this.isAttacking = false;
+        this.attackOpacity = 1.0f;
+        this.attackValue = attackValue;
+        this.isAlive = true;
     }
 
     @Override
     public void draw(Graphics graphics) {
-        int barWidth = (int) width;
-        int barHeight = 5;
-        int healthBarX = (int) x;
-        int healthBarY = (int) y - barHeight - 2;
+        if (health > 0) {
+            Graphics2D g2d = (Graphics2D) graphics;
 
-        int healthBarWidth = (int) (barWidth * (health / 100.0));
+            int barWidth = (int) width;
+            int barHeight = 5;
+            int healthBarX = (int) x;
+            int healthBarY = (int) y - barHeight - 2;
 
-        graphics.setColor(Color.GRAY);
-        graphics.fillRect(healthBarX, healthBarY, barWidth, barHeight);
+            int healthBarWidth = (int) (barWidth * (health / 100.0));
 
-        graphics.setColor(Color.RED);
-        graphics.fillRect(healthBarX, healthBarY, healthBarWidth, barHeight);
+            graphics.setColor(Color.GRAY);
+            graphics.fillRect(healthBarX, healthBarY, barWidth, barHeight);
 
-        int dynamicSpriteImage = 0;
-        if (isWalking) {
-            dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
+            graphics.setColor(Color.RED);
+            graphics.fillRect(healthBarX, healthBarY, healthBarWidth, barHeight);
 
+            int dynamicSpriteImage = 0;
+            if (isWalking) {
+                dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
+
+            }
+            graphics.drawImage(
+                    image, (int) x, (int) y, (int) (x + width), (int) (y + height),
+                    (int) (dynamicSpriteImage * this.width), (int) (direction.getFrameLineNumber() * height),
+                    (int) ((dynamicSpriteImage + 1) * this.width), (int) ((direction.getFrameLineNumber() + 1) * this.height), null
+            );
+            if (isAttacking) {
+                g2d.setColor(new Color(255, 0, 0, (int) (attackOpacity * 255)));
+                Ellipse2D.Double attackCircle = new Ellipse2D.Double(
+                        x + width / 2 - attackRadius / 2,
+                        y + height / 2 - attackRadius / 2,
+                        attackRadius,
+                        attackRadius
+                );
+                g2d.setStroke(new BasicStroke(2));
+                g2d.draw(attackCircle);
+            }
         }
-        graphics.drawImage(
-                image, (int) x, (int) y, (int) (x + width), (int) (y + height),
-                (int) (dynamicSpriteImage * this.width), (int) (direction.getFrameLineNumber() * height),
-                (int) ((dynamicSpriteImage + 1) * this.width), (int) ((direction.getFrameLineNumber() + 1) * this.height), null
-        );
     }
 
     public void moveIfPossible(ArrayList<Sprite> environment, ArrayList<DynamicSprite> dynamicSprites) {
@@ -165,7 +195,7 @@ public class DynamicSprite extends SolidSprite {
         }
 
         for (DynamicSprite sprite : dynamicSprites) {
-            if (isHero && !sprite.isHero && sprite.intersect(anitcipatedMove)) {
+            if (isHero && !sprite.isHero && sprite.isAlive && sprite.intersect(anitcipatedMove)) {
                 this.setHealth(this.health - Main.getLevelNumber());
                 Main.setOldHeroHealth(this.health);
             }
@@ -230,6 +260,10 @@ public class DynamicSprite extends SolidSprite {
         return speed;
     }
 
+    public boolean isAlive(){
+        return isAlive;
+    }
+
     public boolean isWalking() {
         return isWalking;
     }
@@ -241,6 +275,12 @@ public class DynamicSprite extends SolidSprite {
     private void setHealth(double health) {
         if (health >= 0 && health <= 100)
             this.health = health;
+        if(health <= 0) {
+            this.health = 0;
+            this.isAlive = false;
+        }
+        if (health >= 100)
+            this.health = 100;
         checkIfDead();
     }
 
@@ -248,10 +288,9 @@ public class DynamicSprite extends SolidSprite {
         if (isHero && this.health == 0) {
             Main.perdre();
         }
-    }
+        if(!isHero && this.health == 0){
 
-    public void attack() {
-        System.out.println("Attacking!");
+        }
     }
 
     public void speedUp() {
@@ -262,5 +301,40 @@ public class DynamicSprite extends SolidSprite {
     public void speedDown() {
         this.speed = oldSpeed;
     }
+
+    public void attack() {
+        isAttacking = true;
+        attackOpacity = 1.0f;
+        double initialRadius = 10;
+        double maxRadius = width * 1000;
+
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            double currentRadius = initialRadius;
+
+            @Override
+            public void run() {
+                attackOpacity -= 0.1f;
+                currentRadius += 10;
+
+                if (attackOpacity <= 0 || currentRadius >= maxRadius) {
+                    attackOpacity = 0;
+                    isAttacking = false;
+                    timer.cancel();
+                }
+
+                attackRadius = currentRadius;
+            }
+        }, 0, 100);
+        Rectangle2D.Double anitcipatedMove = new Rectangle2D.Double();
+        anitcipatedMove.setRect(super.getHitBox().getX() + speed, super.getHitBox().getY()+speed, super.getHitBox().getWidth(), super.getHitBox().getHeight());
+
+        for (DynamicSprite sprite : PhysicsEngine.getDynamicSpriteList()) {
+            if (isHero && !sprite.isHero && sprite.intersect(anitcipatedMove)) {
+                sprite.setHealth(sprite.getHealth()-this.attackValue);
+            }
+        }
+    }
+    
 }
 

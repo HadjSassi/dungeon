@@ -57,9 +57,9 @@ public class Main {
     public static void loadNextLevel() {
         try {
             Playground newLevel = new Playground(dataPath + "level" + levelNumber + ".txt");
-            DynamicSprite hero = new DynamicSprite(200, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")),"Hero", oldHeroHealth, true);
+            DynamicSprite hero = new DynamicSprite(60, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")),"Hero", oldHeroHealth, true);
             DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")),"Monster",
-                    false, levelNumber , 10, 100, Direction.SOUTH, false);
+                    false, levelNumber , 10, 100, Direction.SOUTH, false,10);
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();

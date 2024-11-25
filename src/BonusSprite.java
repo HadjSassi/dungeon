@@ -42,7 +42,7 @@ public class BonusSprite extends SolidSprite {
     }
 
     public void collect() {
-        collected = true; // Marque la pièce comme collectée
+        collected = true;
     }
 
 }

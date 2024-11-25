@@ -13,32 +13,34 @@ public class AiEngine implements Engine {
 
     @Override
     public void update() {
-        double monsterX = monster.getX();
-        double monsterY = monster.getY();
-        double heroX = hero.getX();
-        double heroY = hero.getY();
+        if (monster.isAlive()) {
+            double monsterX = monster.getX();
+            double monsterY = monster.getY();
+            double heroX = hero.getX();
+            double heroY = hero.getY();
 
-        double deltaX = heroX - monsterX;
-        double deltaY = heroY - monsterY;
-        if (4 >= Math.abs(deltaX) && 4 >= Math.abs(deltaY)) {
-            //todo stop the monster to change direction or to stop from moving
-            catching = false;
-            monster.setDirection(hero.getDirection());
-        } else if (catching  && Math.abs(deltaX) > Math.abs(deltaY)) {
-            if (deltaX > 0) {
-                monster.setDirection(Direction.EAST);
+            double deltaX = heroX - monsterX;
+            double deltaY = heroY - monsterY;
+            if (4 >= Math.abs(deltaX) && 4 >= Math.abs(deltaY)) {
+                //todo stop the monster to change direction or to stop from moving
+                catching = false;
+                monster.setDirection(hero.getDirection());
+            } else if (catching && Math.abs(deltaX) > Math.abs(deltaY)) {
+                if (deltaX > 0) {
+                    monster.setDirection(Direction.EAST);
+                } else {
+                    monster.setDirection(Direction.WEST);
+                }
             } else {
-                monster.setDirection(Direction.WEST);
+                if (deltaY > 0) {
+                    monster.setDirection(Direction.SOUTH);
+                } else {
+                    monster.setDirection(Direction.NORTH);
+                }
             }
-        } else {
-            if (deltaY > 0) {
-                monster.setDirection(Direction.SOUTH);
-            } else {
-                monster.setDirection(Direction.NORTH);
+            if (!monster.isWalking()) {
+                changeBlockedDirection();
             }
-        }
-        if (!monster.isWalking()) {
-            changeBlockedDirection();
         }
 
     }
