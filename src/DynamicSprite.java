@@ -1,6 +1,9 @@
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -274,11 +277,14 @@ public class DynamicSprite extends SolidSprite {
     }
 
     private void setHealth(double health) {
-        if (health >= 0 && health <= 100)
+        if (health >= 0 && health <= 100) {
             this.health = health;
+            SoundSystem.playOuchSound();
+        }
         if(health <= 0) {
             this.health = 0;
             this.isAlive = false;
+            SoundSystem.playDeadSound();
         }
         if (health >= 100)
             this.health = 100;
@@ -336,6 +342,7 @@ public class DynamicSprite extends SolidSprite {
             }
         }
     }
+
     
 }
 

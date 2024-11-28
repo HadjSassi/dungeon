@@ -22,7 +22,6 @@ public class Main extends JPanel{
     private static Timer physicTimer;
 
     private static double oldHeroHealth = 100;
-    private static double oldMonsterHealth = 100;
 
     public Main() {
         if (displayZoneFrame == null) {
@@ -30,12 +29,14 @@ public class Main extends JPanel{
             displayZoneFrame.setTitle("Dungeon");
             displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             displayZoneFrame.setSize(400, 600);
+            displayZoneFrame.setResizable(false);
             displayZoneFrame.setVisible(true);
         }
         displayZoneFrame.getContentPane().removeAll();
         displayZoneFrame.getContentPane().add(new WelcomeScreen(displayZoneFrame));
         displayZoneFrame.revalidate();
         displayZoneFrame.repaint();
+        SoundSystem.playBackgroundMusic();
     }
 
     public static RenderEngine getRenderEngine() {
@@ -183,4 +184,6 @@ public class Main extends JPanel{
     public static void increaseScore() {
         score++;
     }
+
+
 }
