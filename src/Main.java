@@ -1,13 +1,15 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Main {
+public class Main extends JPanel{
     private final static String imagePath = "./img/";
     private final static String dataPath = "./data/";
     private static int levelNumber = 1;
     private static int score = 0;
+    private static Difficulty difficulty = Difficulty.EASY;
     private static JFrame displayZoneFrame;
 
     private static AiEngine aiEngine;
@@ -24,14 +26,17 @@ public class Main {
     private static double oldMonsterHealth = 100;
 
     public Main() {
-        displayZoneFrame = new JFrame();
-        displayZoneFrame.setTitle("Dungeon");
-        displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        loadNextLevel();
-
-        displayZoneFrame.setVisible(true);
-        displayZoneFrame.setSize(400, 600);
+        if (displayZoneFrame == null) {
+            displayZoneFrame = new JFrame();
+            displayZoneFrame.setTitle("Dungeon");
+            displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            displayZoneFrame.setSize(400, 600);
+            displayZoneFrame.setVisible(true);
+        }
+        displayZoneFrame.getContentPane().removeAll();
+        displayZoneFrame.getContentPane().add(new WelcomeScreen(displayZoneFrame));
+        displayZoneFrame.revalidate();
+        displayZoneFrame.repaint();
     }
 
     public static RenderEngine getRenderEngine() {
@@ -44,6 +49,14 @@ public class Main {
 
     public static void increaseLevel() {
         levelNumber++;
+    }
+
+    public static Difficulty getDifficulty(){
+        return Main.difficulty;
+    }
+
+    public static void setDifficulty(Difficulty difficulty){
+        Main.difficulty = difficulty;
     }
 
     public static int getLevelNumber() {
@@ -99,6 +112,8 @@ public class Main {
             displayZoneFrame.getContentPane().removeAll();
             displayZoneFrame.getContentPane().add(renderEngine);
             displayZoneFrame.addKeyListener(gameEngine);
+            displayZoneFrame.setFocusable(true);
+            displayZoneFrame.requestFocus();
             displayZoneFrame.revalidate();
             displayZoneFrame.repaint();
 

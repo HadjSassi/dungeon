@@ -142,7 +142,8 @@ public class DynamicSprite extends SolidSprite {
 
             int dynamicSpriteImage = 0;
             if (isWalking) {
-                dynamicSpriteImage = (int) (System.currentTimeMillis() / timeBetweenFrame % spriteSheetNumberOfColumn);
+                double dynamicTimeBetweenFrame = Math.max(500/oldSpeed, 500/speed);
+                dynamicSpriteImage = (int) (System.currentTimeMillis() / dynamicTimeBetweenFrame % spriteSheetNumberOfColumn);
 
             }
             graphics.drawImage(
