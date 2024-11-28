@@ -197,7 +197,7 @@ public class DynamicSprite extends SolidSprite {
 
         for (DynamicSprite sprite : dynamicSprites) {
             if (isHero && !sprite.isHero && sprite.isAlive && sprite.intersect(anitcipatedMove)) {
-                this.setHealth(this.health - Main.getLevelNumber());
+                this.setHealth(this.health - Main.getLevelNumber()*Main.getDifficulty().getDifficultyValue());
                 Main.setOldHeroHealth(this.health);
             }
         }

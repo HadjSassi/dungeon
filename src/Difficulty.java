@@ -1,8 +1,17 @@
 public enum Difficulty {
-    EASY,
-    MEDIUM,
-    HARD;
+    EASY(1),
+    MEDIUM(5),
+    HARD(10);
 
+    private int difficultyValue;
+
+    Difficulty(int difficultyValue) {
+        this.difficultyValue = difficultyValue;
+    }
+
+    public int getDifficultyValue() {
+        return difficultyValue;
+    }
 }
 
 //this Difficulty Enumeration is done

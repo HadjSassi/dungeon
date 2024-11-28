@@ -19,16 +19,19 @@ public class WelcomeScreen extends JPanel {
 
         easyButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.EASY);
+            RenderEngine.setRemainingTime(60);
             startGame(frame);
         });
 
         mediumButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.MEDIUM);
+            RenderEngine.setRemainingTime(50);
             startGame(frame);
         });
 
         hardButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.HARD);
+            RenderEngine.setRemainingTime(40);
             startGame(frame);
         });
 

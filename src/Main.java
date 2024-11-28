@@ -71,7 +71,7 @@ public class Main extends JPanel{
             Playground newLevel = new Playground(dataPath + "level" + levelNumber + ".txt");
             DynamicSprite hero = new DynamicSprite(60, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")), "Hero", oldHeroHealth, true);
             DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")), "Monster",
-                    false, levelNumber, 10, 100, Direction.SOUTH, false, 10);
+                    false, levelNumber, 10, 100, Direction.SOUTH, false, 10*difficulty.getDifficultyValue());
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();
@@ -131,7 +131,7 @@ public class Main extends JPanel{
         if (renderTimer != null) {
             renderTimer.stop();
         }
-        int choice = JOptionPane.showOptionDialog(null, "Congratulation, you won the maze!",
+        int choice = JOptionPane.showOptionDialog(null, "Congratulation, you escpaed the maze! with a score "+score+" !",
                 "Congratulation", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null,
                 new Object[]{"Exit", "Retry"}, "Retry");
