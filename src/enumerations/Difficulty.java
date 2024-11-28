@@ -1,3 +1,5 @@
+package enumerations;
+
 public enum Difficulty {
     EASY(1),
     MEDIUM(5),
@@ -13,5 +15,3 @@ public enum Difficulty {
         return difficultyValue;
     }
 }
-
-//this Difficulty Enumeration is done

@@ -1,6 +1,12 @@
+import interfaces.Displayable;
+import interfaces.Engine;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import static enumerations.NumericalConstants.*;
+import static enumerations.StringConstants.*;
 
 public class RenderEngine extends JPanel implements Engine {
 
@@ -9,17 +15,21 @@ public class RenderEngine extends JPanel implements Engine {
     private int fps;
     private int frameCount;
     private long lastFpsTime;
-    private static int remainingTime = 60;
+    private static int remainingTime = (int) INITIAL_VALUE.getNumericalValue();
+    private static int gamingTime = (int) INITIAL_VALUE.getNumericalValue();
 
     public RenderEngine() {
         renderList = new ArrayList<>();
-        this.fps = 0;
-        this.frameCount = 0;
+        this.fps = (int) INITIAL_VALUE.getNumericalValue();
+        this.frameCount = (int) INITIAL_VALUE.getNumericalValue();;
         this.lastFpsTime = System.currentTimeMillis();
     }
 
     public static void setRemainingTime(int seconds) {
         remainingTime = seconds;
+        if(gamingTime < remainingTime) {
+            gamingTime = remainingTime;
+        }
     }
 
     public void addToRenderList(Displayable displayable) {
@@ -39,18 +49,18 @@ public class RenderEngine extends JPanel implements Engine {
             displayable.draw(graphics);
 
         graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("Arial", Font.BOLD, 20));
-        String scoreText = "SCORE: " + Main.getScore();
+        graphics.setFont(new Font(POLICE_NAME.getValue(), Font.BOLD, (int) POLICE_SIZE.getNumericalValue()));
+        String scoreText = SCORE.getValue() + Main.getScore();
         FontMetrics metrics = graphics.getFontMetrics(graphics.getFont());
         int x = (getWidth() - metrics.stringWidth(scoreText)) / 2;
-        graphics.drawString(scoreText, x, 30);
+        graphics.drawString(scoreText, x, (int) SCORE_POSY.getNumericalValue());
 
         graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font("Arial", Font.BOLD, 20));
-        graphics.drawString("FPS: " + fps, 10, 20);
+        graphics.setFont(new Font(POLICE_NAME.getValue(), Font.BOLD, (int) POLICE_SIZE.getNumericalValue()));
+        graphics.drawString(FPS.getValue() + fps, (int) FPS_POSX.getNumericalValue(),  (int) FPS_POSY.getNumericalValue());
 
         graphics.setColor(Color.BLACK);
-        graphics.drawString("Time Left: " + remainingTime + "s", getWidth() - 140, 20);
+        graphics.drawString(TIME.getValue() + remainingTime , getWidth() -  (int) TIME_POSX.getNumericalValue(),  (int) TIME_POSY.getNumericalValue());
     }
 
     @Override
@@ -62,9 +72,9 @@ public class RenderEngine extends JPanel implements Engine {
     private void updateFps() {
         frameCount++;
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastFpsTime >= 1000) {
+        if (currentTime - lastFpsTime >= ONE_SECOND.getNumericalValue()) {
             this.fps = frameCount;
-            this.frameCount = 0;
+            this.frameCount = (int) INITIAL_VALUE.getNumericalValue();
             this.lastFpsTime = currentTime;
             this.updateTime();
         }
@@ -72,10 +82,12 @@ public class RenderEngine extends JPanel implements Engine {
 
     private void updateTime() {
         remainingTime--;
-        if (remainingTime == 0) {
+        if (remainingTime == INITIAL_VALUE.getNumericalValue()) {
             Main.perdre();
         }
     }
-}
 
-//this RenderEngine class is finished
+    public static void resetTime(){
+        remainingTime = gamingTime;
+    }
+}

@@ -1,12 +1,13 @@
-import javax.sound.sampled.*;
+import enumerations.Direction;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static enumerations.NumericalConstants.*;
 
 public class DynamicSprite extends SolidSprite {
     private boolean isWalking;
@@ -22,76 +23,6 @@ public class DynamicSprite extends SolidSprite {
     private double attackRadius;
     private double attackValue;
     private boolean isAlive;
-
-/*
-    // Constructors !
-    public DynamicSprite(double x, double y, double width, double height, Image image) {
-        super(x, y, width, height, image);
-        this.isWalking = false;
-        this.speed = 5;
-        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
-        this.timeBetweenFrame = 100;
-        this.direction = Direction.EAST;
-        this.health = 100;
-        this.isHero = false;
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, double health) {
-        super(x, y, width, height, image);
-        this.isWalking = false;
-        this.speed = 5;
-        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
-        this.timeBetweenFrame = 100;
-        this.direction = Direction.EAST;
-        this.isHero = false;
-        this.health = health;
-
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction) {
-        super(x, y, width, height, image);
-        this.isWalking = isWalking;
-        this.speed = speed;
-        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
-        this.timeBetweenFrame = timeBetweenFrame;
-        this.direction = direction;
-        this.health = 100;
-        this.isHero = false;
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health) {
-        super(x, y, width, height, image);
-        this.isWalking = isWalking;
-        this.speed = speed;
-        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
-        this.timeBetweenFrame = timeBetweenFrame;
-        this.direction = direction;
-        this.health = health;
-        this.isHero = false;
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isHero) {
-        super(x, y, width, height, image);
-        this.isWalking = false;
-        this.speed = 5;
-        this.spriteSheetNumberOfColumn = 10;//number of sprite in the sprite sheet
-        this.timeBetweenFrame = 100;
-        this.direction = Direction.EAST;
-        this.health = 100;
-        this.isHero = isHero;
-    }
-
-    public DynamicSprite(double x, double y, double width, double height, Image image, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, double health, boolean isHero) {
-        super(x, y, width, height, image);
-        this.isWalking = isWalking;
-        this.speed = speed;
-        this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
-        this.timeBetweenFrame = timeBetweenFrame;
-        this.direction = direction;
-        this.health = health;
-        this.isHero = isHero;
-    }
-*/
 
     public DynamicSprite(double x, double y, double width, double height, Image image, String name, double health, boolean isHero) {
         super(x, y, width, height, image, name);
@@ -127,15 +58,15 @@ public class DynamicSprite extends SolidSprite {
 
     @Override
     public void draw(Graphics graphics) {
-        if (health > 0) {
+        if (health > INITIAL_VALUE.getNumericalValue()) {
             Graphics2D g2d = (Graphics2D) graphics;
 
             int barWidth = (int) width;
-            int barHeight = 5;
+            int barHeight = (int) BAR_HEIGHT.getNumericalValue();
             int healthBarX = (int) x;
-            int healthBarY = (int) y - barHeight - 2;
+            int healthBarY = (int) y - barHeight;
 
-            int healthBarWidth = (int) (barWidth * (health / 100.0));
+            int healthBarWidth = (int) (barWidth * (health / TOTAL_PERCENTAGE.getNumericalValue()));
 
             graphics.setColor(Color.GRAY);
             graphics.fillRect(healthBarX, healthBarY, barWidth, barHeight);
@@ -143,9 +74,9 @@ public class DynamicSprite extends SolidSprite {
             graphics.setColor(Color.RED);
             graphics.fillRect(healthBarX, healthBarY, healthBarWidth, barHeight);
 
-            int dynamicSpriteImage = 0;
+            int dynamicSpriteImage = (int) INITIAL_VALUE.getNumericalValue();
             if (isWalking) {
-                double dynamicTimeBetweenFrame = Math.max(500/oldSpeed, 500/speed);
+                double dynamicTimeBetweenFrame = Math.max(MAXIMUM_SPEED.getNumericalValue()/oldSpeed, MAXIMUM_SPEED.getNumericalValue()/speed);
                 dynamicSpriteImage = (int) (System.currentTimeMillis() / dynamicTimeBetweenFrame % spriteSheetNumberOfColumn);
 
             }
@@ -260,10 +191,6 @@ public class DynamicSprite extends SolidSprite {
         }
     }
 
-    public double getSpeed() {
-        return speed;
-    }
-
     public boolean isAlive(){
         return isAlive;
     }
@@ -277,32 +204,34 @@ public class DynamicSprite extends SolidSprite {
     }
 
     private void setHealth(double health) {
-        if (health >= 0 && health <= 100) {
+        if (health >= MINIMUM_HEALTH.getNumericalValue() && health <= MAXIMUM_HEALTH.getNumericalValue()) {
+            if(this.health > health)
+                SoundSystem.playOuchSound();
+            //todo else health sound
             this.health = health;
-            SoundSystem.playOuchSound();
+
         }
-        if(health <= 0) {
-            this.health = 0;
+        if(health <= MINIMUM_HEALTH.getNumericalValue()) {
+            this.health = MINIMUM_HEALTH.getNumericalValue();
             this.isAlive = false;
             SoundSystem.playDeadSound();
         }
-        if (health >= 100)
-            this.health = 100;
+        if (health >= MAXIMUM_HEALTH.getNumericalValue())
+            this.health = MAXIMUM_HEALTH.getNumericalValue();
         checkIfDead();
     }
 
     private void checkIfDead() {
-        if (isHero && this.health == 0) {
+        if (isHero && this.health == MINIMUM_HEALTH.getNumericalValue()) {
             Main.perdre();
         }
-        if(!isHero && this.health == 0){
+        if(!isHero && this.health == MINIMUM_HEALTH.getNumericalValue()){
             Main.increaseScore();
         }
     }
 
     public void speedUp() {
-
-        this.speed = oldSpeed * 1.5;
+        this.speed = oldSpeed * SPEED_COEFFICIENT.getNumericalValue();
     }
 
     public void speedDown() {
@@ -311,9 +240,9 @@ public class DynamicSprite extends SolidSprite {
 
     public void attack() {
         isAttacking = true;
-        attackOpacity = 1.0f;
-        double initialRadius = 10;
-        double maxRadius = width * 1000;
+        attackOpacity = (float) ATTACK_OPACITY.getNumericalValue();
+        double initialRadius = INITIAL_ATTACK_RADIUS.getNumericalValue();
+        double maxRadius = width * MAXIMUM_ATTACK_RADIUS.getNumericalValue();
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -321,18 +250,18 @@ public class DynamicSprite extends SolidSprite {
 
             @Override
             public void run() {
-                attackOpacity -= 0.1f;
-                currentRadius += 10;
+                attackOpacity -= (float) ATTACK_FADE_STEP.getNumericalValue();
+                currentRadius += (float) ATTACK_RADIUS_STEP.getNumericalValue();
 
-                if (attackOpacity <= 0 || currentRadius >= maxRadius) {
-                    attackOpacity = 0;
+                if (attackOpacity <= INITIAL_VALUE.getNumericalValue() || currentRadius >= maxRadius) {
+                    attackOpacity = (float) INITIAL_VALUE.getNumericalValue();
                     isAttacking = false;
                     timer.cancel();
                 }
 
                 attackRadius = currentRadius;
             }
-        }, 0, 100);
+        }, (long) INITIAL_VALUE.getNumericalValue(), (long) TOTAL_PERCENTAGE.getNumericalValue());
         Rectangle2D.Double anitcipatedMove = new Rectangle2D.Double();
         anitcipatedMove.setRect(super.getHitBox().getX() + speed, super.getHitBox().getY()+speed, super.getHitBox().getWidth(), super.getHitBox().getHeight());
 

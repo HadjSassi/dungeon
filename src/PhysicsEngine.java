@@ -1,3 +1,5 @@
+import interfaces.Engine;
+
 import java.util.ArrayList;
 
 public class PhysicsEngine implements Engine {
@@ -8,11 +10,6 @@ public class PhysicsEngine implements Engine {
     public PhysicsEngine() {
         environment = new ArrayList<>();
         movingSpriteList = new ArrayList<>();
-    }
-
-    public void addToEnvironmentList(Sprite sprite) {
-        if (!environment.contains(sprite))
-            environment.add(sprite);
     }
 
     public void addToMovingSpriteList(DynamicSprite sprite) {

@@ -2,16 +2,18 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+import static enumerations.StringConstants.*;
+
 public class SoundSystem {
 
     private static Clip backgroundMusicClip;
 
     public static void playOuchSound() {
-        playSound("./audio/ouch.wav");
+        playSound(AUDIO_PATH.getValue()+OUCH_SOUND.getValue());
     }
 
     public static void playDeadSound() {
-        playSound("./audio/dead.wav");
+        playSound(AUDIO_PATH.getValue()+DEAD_SOUND.getValue());
     }
 
     public static void playBackgroundMusic() {
@@ -19,7 +21,7 @@ public class SoundSystem {
             if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
                 backgroundMusicClip.stop();
             }
-            File audioFile = new File("./audio/background_music.wav");
+            File audioFile = new File(AUDIO_PATH.getValue()+BG_SOUND.getValue());
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
             backgroundMusicClip = AudioSystem.getClip();
@@ -35,13 +37,7 @@ public class SoundSystem {
             backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
             backgroundMusicClip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println("Error loading or playing background music: " + e.getMessage());
-        }
-    }
-
-    public static void stopBackgroundMusic() {
-        if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
-            backgroundMusicClip.stop();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -54,7 +50,7 @@ public class SoundSystem {
             clip.open(audioStream);
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println("Error loading or playing sound: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

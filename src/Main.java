@@ -1,13 +1,17 @@
+import enumerations.Difficulty;
+import enumerations.Direction;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
+import static enumerations.StringConstants.*;
+import static enumerations.NumericalConstants.*;
+
 public class Main extends JPanel{
-    private final static String imagePath = "./img/";
-    private final static String dataPath = "./data/";
-    private static int levelNumber = 1;
-    private static int score = 0;
+    private static int levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
+    private static int score = (int) INITIAL_VALUE.getNumericalValue();;
     private static Difficulty difficulty = Difficulty.EASY;
     private static JFrame displayZoneFrame;
 
@@ -21,14 +25,14 @@ public class Main extends JPanel{
     private static Timer aiTimer;
     private static Timer physicTimer;
 
-    private static double oldHeroHealth = 100;
+    private static double oldHeroHealth = (int) TOTAL_PERCENTAGE.getNumericalValue();;
 
     public Main() {
         if (displayZoneFrame == null) {
             displayZoneFrame = new JFrame();
-            displayZoneFrame.setTitle("Dungeon");
+            displayZoneFrame.setTitle(GAME_NAME.getValue());
             displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            displayZoneFrame.setSize(400, 600);
+            displayZoneFrame.setSize((int) WIDTH_SCREEN.getNumericalValue(), (int) HEIGHT_SCREEN.getNumericalValue());
             displayZoneFrame.setResizable(false);
             displayZoneFrame.setVisible(true);
         }
@@ -63,23 +67,24 @@ public class Main extends JPanel{
         return levelNumber;
     }
 
-    public static String getImagePath() {
-        return imagePath;
-    }
-
     public static void loadNextLevel() {
         try {
-            Playground newLevel = new Playground(dataPath + "level" + levelNumber + ".txt");
-            DynamicSprite hero = new DynamicSprite(60, 300, 48, 50, ImageIO.read(new File(imagePath + "heroTileSheetLowRes.png")), "Hero", oldHeroHealth, true);
-            DynamicSprite monster = new DynamicSprite(60, 450, 48, 50, ImageIO.read(new File(imagePath + "monsterTileSheetLowRes.png")), "Monster",
-                    false, levelNumber, 10, 100, Direction.SOUTH, false, 10*difficulty.getDifficultyValue());
+            Playground newLevel = new Playground(DATA_PATH.getValue() + LEVEL_NAME.getValue() + levelNumber + LEVEL_FILE_EXTENSION.getValue());
+            DynamicSprite hero = new DynamicSprite(HERO_POSX.getNumericalValue(), HERO_POSY.getNumericalValue(),
+                    HERO_WIDTH.getNumericalValue(), HERO_HEIGHT.getNumericalValue(),
+                    ImageIO.read(new File(IMAGE_PATH.getValue() + HERO_IMAGE_FILE_NAME.getValue())),
+                    HERO_NAME.getValue(), oldHeroHealth, true);
+            DynamicSprite monster = new DynamicSprite(MONSTER_POSX.getNumericalValue(), MONSTER_POSY.getNumericalValue(),
+                    MONSTER_WIDTH.getNumericalValue(), MONSTER_HEIGHT.getNumericalValue(),
+                    ImageIO.read(new File(IMAGE_PATH.getValue() + MONSTER_IMAGE_FILE_NAME.getValue())), MONSTER_NAME.getValue(),
+                    false, levelNumber, (int)SPRITE_SHEET_NUMBER_OF_COLUMN.getNumericalValue(),
+                    TIME_BETWEEN_FRAME.getNumericalValue(), Direction.SOUTH, false, difficulty.getDifficultyValue());
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();
             gameEngine = new GameEngine(hero);
             aiEngine = new AiEngine(monster, hero);
 
-            // Stop existing timers, if any
             if (renderTimer != null) {
                 renderTimer.stop();
             }
@@ -93,10 +98,10 @@ public class Main extends JPanel{
                 physicTimer.stop();
             }
 
-            renderTimer = new Timer(50, (time) -> renderEngine.update());
-            gameTimer = new Timer(50, (time) -> gameEngine.update());
-            aiTimer = new Timer(50, (time) -> aiEngine.update());
-            physicTimer = new Timer(50, (time) -> physicsEngine.update());
+            renderTimer = new Timer((int) DELAY_TIMER.getNumericalValue(), (time) -> renderEngine.update());
+            gameTimer = new Timer((int) DELAY_TIMER.getNumericalValue(), (time) -> gameEngine.update());
+            aiTimer = new Timer((int) DELAY_TIMER.getNumericalValue(), (time) -> aiEngine.update());
+            physicTimer = new Timer((int) DELAY_TIMER.getNumericalValue(), (time) -> physicsEngine.update());
             renderTimer.start();
             gameTimer.start();
             aiTimer.start();
@@ -132,16 +137,15 @@ public class Main extends JPanel{
         if (renderTimer != null) {
             renderTimer.stop();
         }
-        int choice = JOptionPane.showOptionDialog(null, "Congratulation, you escpaed the maze! with a score "+score+" !",
-                "Congratulation", JOptionPane.YES_NO_OPTION,
+        int choice = JOptionPane.showOptionDialog(null, CONGRATS_MSG.getValue()+score,
+                CONGRATS_TITLE.getValue(), JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null,
-                new Object[]{"Exit", "Retry"}, "Retry");
+                new Object[]{EXIT.getValue(), RETRY.getValue()}, RETRY.getValue());
 
         if (choice == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            exit();
         } else {
-            levelNumber = 1;
-            loadNextLevel();
+            reset();
         }
     }
 
@@ -155,18 +159,27 @@ public class Main extends JPanel{
         if (renderTimer != null) {
             renderTimer.stop();
         }
-        int choice = JOptionPane.showOptionDialog(null, "Ouch!, you Lost unfortunately!",
-                "The End!", JOptionPane.YES_NO_OPTION,
+        int choice = JOptionPane.showOptionDialog(null, LOST_MSG.getValue(),
+                LOST_TITLE.getValue(), JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null,
-                new Object[]{"Exit", "Retry"}, "Retry");
+                new Object[]{EXIT.getValue(), RETRY.getValue()}, RETRY.getValue());
 
         if (choice == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            exit();
         } else {
-            levelNumber = 1;
-            oldHeroHealth = 100;
-            loadNextLevel();
+            reset();
         }
+    }
+
+    private static void exit(){
+        System.exit((int) INITIAL_VALUE.getNumericalValue());
+    }
+
+    private static void reset(){
+        levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
+        oldHeroHealth = TOTAL_PERCENTAGE.getNumericalValue();
+        RenderEngine.resetTime();
+        loadNextLevel();
     }
 
     public static int getScore() {

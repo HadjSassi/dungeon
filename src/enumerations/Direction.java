@@ -1,3 +1,5 @@
+package enumerations;
+
 public enum Direction {
     EAST(3),
     NORTH(2),
@@ -15,5 +17,3 @@ public enum Direction {
     }
 
 }
-
-//this Direction Enumeration is done

@@ -1,3 +1,5 @@
+import interfaces.Displayable;
+
 import java.awt.*;
 
 public class Sprite implements Displayable {
@@ -18,7 +20,6 @@ public class Sprite implements Displayable {
         this.name = name;
     }
 
-
     public double getX() {
         return x;
     }
@@ -38,5 +39,3 @@ public class Sprite implements Displayable {
         return name;
     }
 }
-
-//this class is finished

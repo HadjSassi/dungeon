@@ -1,8 +1,13 @@
+import enumerations.Direction;
+import interfaces.Engine;
+
 import javax.sound.sampled.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+
+import static enumerations.StringConstants.*;
 
 public class GameEngine implements KeyListener, Engine {
 
@@ -12,6 +17,17 @@ public class GameEngine implements KeyListener, Engine {
         this.hero = hero;
     }
 
+    private void playFightSound() {
+        try {
+            File audioFile = new File(AUDIO_PATH.getValue() + FIGHT_SOUND.getValue());
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -48,28 +64,10 @@ public class GameEngine implements KeyListener, Engine {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
     }
-
 
     @Override
     public void update() {
-
     }
-
-    private void playFightSound() {
-        try {
-            File audioFile = new File("./audio/fight.wav"); // Replace with your file path
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println("Error loading or playing fight sound: " + e.getMessage());
-        }
-    }
-
 
 }
-
-// normally this class is finished

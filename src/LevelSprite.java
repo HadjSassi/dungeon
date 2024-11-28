@@ -13,12 +13,7 @@ public class LevelSprite extends SolidSprite{
         this.finalLevel = finalLevel;
     }
 
-
     public boolean isFinalLevel() {
         return finalLevel;
-    }
-
-    public void setFinalLevel(boolean finalLevel) {
-        this.finalLevel = finalLevel;
     }
 }

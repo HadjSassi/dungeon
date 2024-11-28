@@ -15,5 +15,3 @@ public class SolidSprite extends Sprite {
         return this.getHitBox().intersects(rect);
     }
 }
-
-//this.class is finished
