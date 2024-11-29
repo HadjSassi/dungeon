@@ -1,3 +1,7 @@
+/*
+ * This enumeration is used to stock all the String values in a constants
+ * So we can change this class just to play with the texts and the paths of the game.
+ * */
 package enumerations;
 
 public enum StringConstants {

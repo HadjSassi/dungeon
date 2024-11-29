@@ -63,6 +63,10 @@ public class Main extends JPanel{
         return levelNumber;
     }
 
+    /*
+     * This method initializes all the timers and creates the necessary objects to start the game in the desired level from the
+     * level in the data folder
+     * */
     public static void loadNextLevel() {
         try {
             Playground newLevel = new Playground(DATA_PATH.getValue() + LEVEL_NAME.getValue() + levelNumber + LEVEL_FILE_EXTENSION.getValue());
@@ -124,6 +128,10 @@ public class Main extends JPanel{
         }
     }
 
+    /*
+     * This method stops all the timers ans show a popup of wining the game with the score,
+     * with the capability to exit or to retry the game
+     * */
     public static void gagner() {
         if (gameTimer != null) {
             gameTimer.stop();
@@ -146,6 +154,10 @@ public class Main extends JPanel{
         }
     }
 
+    /*
+     * This method stops all the timers ans show a popup of losing the game, with the capability to
+     * exit or to retry the game
+     * */
     public static void perdre() {
         if (gameTimer != null) {
             gameTimer.stop();
@@ -172,6 +184,10 @@ public class Main extends JPanel{
         System.exit((int) INITIAL_VALUE.getNumericalValue());
     }
 
+    /*
+     * This method resets the level to 1 and the hero health to 100 and relaunch the game with the same
+     * difficulty
+     * */
     private static void reset(){
         levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
         oldHeroHealth = TOTAL_PERCENTAGE.getNumericalValue();

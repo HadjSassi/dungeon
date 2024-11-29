@@ -20,6 +20,9 @@ public class SoundSystem {
         playSound(AUDIO_PATH.getValue()+DEAD_SOUND.getValue());
     }
 
+    /*
+     * This method plays a background music while the game is on.
+     * */
     public static void playBackgroundMusic() {
         try {
             if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
@@ -45,6 +48,9 @@ public class SoundSystem {
         }
     }
 
+    /*
+     * This method plays a music given the path of the audio clip
+     * */
     private static void playSound(String filePath) {
         try {
             File audioFile = new File(filePath);

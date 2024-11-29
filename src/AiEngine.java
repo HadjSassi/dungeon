@@ -15,7 +15,10 @@ public class AiEngine implements Engine {
         this.catching = true;
     }
 
-
+    /*
+     * Since our AI Engine extends an engine, each time laps, then the NPC tries to find the shortest
+     * path to go straight to the playable character
+     * */
     @Override
     public void update() {
         if (monster.isAlive()) {
@@ -50,7 +53,10 @@ public class AiEngine implements Engine {
 
     }
 
-
+    /*
+     * This methods is used to make the NPC more intelligent, if it faces an obstacles, then it tries
+     * to find another way out, to reach the Playable character
+     * */
     private void changeBlockedDirection() {
         Direction currentDirection = monster.getDirection();
         Direction newDirection;

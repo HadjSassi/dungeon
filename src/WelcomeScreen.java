@@ -8,6 +8,10 @@ import static enumerations.StringConstants.*;
 
 public class WelcomeScreen extends JPanel {
 
+    /*
+     * This constructor makes three buttons of three different difficulties, and each button sets the
+     * game difficulty with the desired one, then it calls the startGame method to launch the game.
+     * */
     public WelcomeScreen() {
         setLayout(new BorderLayout());
 
@@ -47,6 +51,9 @@ public class WelcomeScreen extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
+    /*
+     * This method launches the game
+     * */
     private void startGame() {
         Main.setOldHeroHealth(TOTAL_PERCENTAGE.getNumericalValue());
         Main.setScore((int) INITIAL_VALUE.getNumericalValue());

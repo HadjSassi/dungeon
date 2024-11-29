@@ -1,3 +1,8 @@
+/*
+* This enumeration is used to stock all the numerical values in a constants
+* So we can change this class just to play with the values of the game.
+* The values are in double, since it can be casted to all the other numerical values!
+* */
 package enumerations;
 
 public enum NumericalConstants {

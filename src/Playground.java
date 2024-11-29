@@ -90,6 +90,12 @@ public class Playground {
         return new ArrayList<>(environment);
     }
 
+    /*
+     * We've changed the levels format in the data files, we've added a row on the top, that
+     * indicates the positions of the hearts in the map.
+     * Why ? because we want it to be on the map not in the map, so when we collect these bonuses
+     * it disappears from on the map
+     * */
     private ArrayList<Point> parseHeartCoordinates(String line) {
         ArrayList<Point> heartPositions = new ArrayList<>();
         Pattern pattern = Pattern.compile(LEVEL_HEADER_PATTERN.getValue());

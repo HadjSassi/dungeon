@@ -21,7 +21,7 @@ public class RenderEngine extends JPanel implements Engine {
     public RenderEngine() {
         renderList = new ArrayList<>();
         this.fps = (int) INITIAL_VALUE.getNumericalValue();
-        this.frameCount = (int) INITIAL_VALUE.getNumericalValue();;
+        this.frameCount = (int) INITIAL_VALUE.getNumericalValue();
         this.lastFpsTime = System.currentTimeMillis();
     }
 
@@ -69,6 +69,9 @@ public class RenderEngine extends JPanel implements Engine {
         this.updateFps();
     }
 
+    /*
+     * This method calculates each second the frames in the game.
+     * */
     private void updateFps() {
         frameCount++;
         long currentTime = System.currentTimeMillis();
@@ -80,6 +83,9 @@ public class RenderEngine extends JPanel implements Engine {
         }
     }
 
+    /*
+     * This method decreases the remaining time of the game
+     * */
     private void updateTime() {
         remainingTime--;
         if (remainingTime == INITIAL_VALUE.getNumericalValue()) {

@@ -201,6 +201,9 @@ public class DynamicSprite extends SolidSprite {
         return health;
     }
 
+    /*
+     * This method modify the attribute health, but in conditions and check if the character is dead or not
+     * */
     private void setHealth(double health) {
         if (health >= MINIMUM_HEALTH.getNumericalValue() && health <= MAXIMUM_HEALTH.getNumericalValue()) {
             if (this.health > health)
@@ -221,6 +224,9 @@ public class DynamicSprite extends SolidSprite {
         checkIfDead();
     }
 
+    /*
+     * This method stops the game if the hero lost, and increases the score an enemy killed
+     * */
     private void checkIfDead() {
         if (isHero && this.health == MINIMUM_HEALTH.getNumericalValue()) {
             Main.perdre();
@@ -238,6 +244,9 @@ public class DynamicSprite extends SolidSprite {
         this.speed = oldSpeed;
     }
 
+    /*
+     * This method calculate a threaten radius that can hurt an enemy if is in this radius
+     * */
     public void attack() {
         isAttacking = true;
         attackOpacity = (float) ATTACK_OPACITY.getNumericalValue();
