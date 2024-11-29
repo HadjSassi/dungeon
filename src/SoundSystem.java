@@ -12,6 +12,10 @@ public class SoundSystem {
         playSound(AUDIO_PATH.getValue()+OUCH_SOUND.getValue());
     }
 
+    public static void playBonusSound() {
+        playSound(AUDIO_PATH.getValue()+BONUS_SOUND.getValue());
+    }
+
     public static void playDeadSound() {
         playSound(AUDIO_PATH.getValue()+DEAD_SOUND.getValue());
     }
@@ -40,7 +44,6 @@ public class SoundSystem {
             System.out.println(e.getMessage());
         }
     }
-
 
     private static void playSound(String filePath) {
         try {

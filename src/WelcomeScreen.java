@@ -8,7 +8,7 @@ import static enumerations.StringConstants.*;
 
 public class WelcomeScreen extends JPanel {
 
-    public WelcomeScreen(JFrame frame) {
+    public WelcomeScreen() {
         setLayout(new BorderLayout());
 
         JLabel title = new JLabel(GREETINGS.getValue(), JLabel.CENTER);
@@ -26,19 +26,19 @@ public class WelcomeScreen extends JPanel {
         easyButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.EASY);
             RenderEngine.setRemainingTime((int) ONE_MINUTE.getNumericalValue());
-            startGame(frame);
+            startGame();
         });
 
         mediumButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.MEDIUM);
             RenderEngine.setRemainingTime((int) FIFTY_SECOND.getNumericalValue());
-            startGame(frame);
+            startGame();
         });
 
         hardButton.addActionListener(e -> {
             Main.setDifficulty(Difficulty.HARD);
             RenderEngine.setRemainingTime((int) FOURTY_SECOND.getNumericalValue());
-            startGame(frame);
+            startGame();
         });
 
         buttonPanel.add(easyButton);
@@ -47,7 +47,7 @@ public class WelcomeScreen extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    private void startGame(JFrame frame) {
+    private void startGame() {
         Main.setOldHeroHealth(TOTAL_PERCENTAGE.getNumericalValue());
         Main.setScore((int) INITIAL_VALUE.getNumericalValue());
         Main.loadNextLevel();

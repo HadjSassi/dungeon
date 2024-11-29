@@ -14,7 +14,6 @@ public class DynamicSprite extends SolidSprite {
     private double speed;
     private double oldSpeed;
     private int spriteSheetNumberOfColumn;
-    private double timeBetweenFrame;
     private Direction direction;
     private double health;
     private boolean isHero;
@@ -30,7 +29,6 @@ public class DynamicSprite extends SolidSprite {
         this.speed = 5;
         this.oldSpeed = 5;
         this.spriteSheetNumberOfColumn = 10;
-        this.timeBetweenFrame = 100;
         this.direction = Direction.EAST;
         this.isHero = isHero;
         this.health = health;
@@ -40,13 +38,12 @@ public class DynamicSprite extends SolidSprite {
         this.isAlive = true;
     }
 
-    public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, double timeBetweenFrame, Direction direction, boolean isHero, double attackValue) {
+    public DynamicSprite(double x, double y, double width, double height, Image image, String name, boolean isWalking, double speed, int spriteSheetNumberOfColumn, Direction direction, boolean isHero, double attackValue) {
         super(x, y, width, height, image, name);
         this.isWalking = isWalking;
         this.oldSpeed = speed;
         this.speed = speed;
         this.spriteSheetNumberOfColumn = spriteSheetNumberOfColumn;
-        this.timeBetweenFrame = timeBetweenFrame;
         this.direction = direction;
         this.health = 100;
         this.isHero = isHero;
@@ -76,7 +73,7 @@ public class DynamicSprite extends SolidSprite {
 
             int dynamicSpriteImage = (int) INITIAL_VALUE.getNumericalValue();
             if (isWalking) {
-                double dynamicTimeBetweenFrame = Math.max(MAXIMUM_SPEED.getNumericalValue()/oldSpeed, MAXIMUM_SPEED.getNumericalValue()/speed);
+                double dynamicTimeBetweenFrame = Math.max(MAXIMUM_SPEED.getNumericalValue() / oldSpeed, MAXIMUM_SPEED.getNumericalValue() / speed);
                 dynamicSpriteImage = (int) (System.currentTimeMillis() / dynamicTimeBetweenFrame % spriteSheetNumberOfColumn);
 
             }
@@ -131,7 +128,7 @@ public class DynamicSprite extends SolidSprite {
 
         for (DynamicSprite sprite : dynamicSprites) {
             if (isHero && !sprite.isHero && sprite.isAlive && sprite.intersect(anitcipatedMove)) {
-                this.setHealth(this.health - Main.getLevelNumber()*Main.getDifficulty().getDifficultyValue());
+                this.setHealth(this.health - Main.getLevelNumber() * Main.getDifficulty().getDifficultyValue());
                 Main.setOldHeroHealth(this.health);
             }
         }
@@ -159,6 +156,7 @@ public class DynamicSprite extends SolidSprite {
                                 Main.gagner();
                             } else {
                                 Main.increaseLevel();
+                                Main.setOldHeroHealth(this.health);
                                 Main.loadNextLevel();
                             }
                         } else {
@@ -191,7 +189,7 @@ public class DynamicSprite extends SolidSprite {
         }
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return isAlive;
     }
 
@@ -205,13 +203,15 @@ public class DynamicSprite extends SolidSprite {
 
     private void setHealth(double health) {
         if (health >= MINIMUM_HEALTH.getNumericalValue() && health <= MAXIMUM_HEALTH.getNumericalValue()) {
-            if(this.health > health)
+            if (this.health > health)
                 SoundSystem.playOuchSound();
-            //todo else health sound
+            else {
+                SoundSystem.playBonusSound();
+            }
             this.health = health;
 
         }
-        if(health <= MINIMUM_HEALTH.getNumericalValue()) {
+        if (health <= MINIMUM_HEALTH.getNumericalValue()) {
             this.health = MINIMUM_HEALTH.getNumericalValue();
             this.isAlive = false;
             SoundSystem.playDeadSound();
@@ -225,7 +225,7 @@ public class DynamicSprite extends SolidSprite {
         if (isHero && this.health == MINIMUM_HEALTH.getNumericalValue()) {
             Main.perdre();
         }
-        if(!isHero && this.health == MINIMUM_HEALTH.getNumericalValue()){
+        if (!isHero && this.health == MINIMUM_HEALTH.getNumericalValue()) {
             Main.increaseScore();
         }
     }
@@ -263,15 +263,15 @@ public class DynamicSprite extends SolidSprite {
             }
         }, (long) INITIAL_VALUE.getNumericalValue(), (long) TOTAL_PERCENTAGE.getNumericalValue());
         Rectangle2D.Double anitcipatedMove = new Rectangle2D.Double();
-        anitcipatedMove.setRect(super.getHitBox().getX() + speed, super.getHitBox().getY()+speed, super.getHitBox().getWidth(), super.getHitBox().getHeight());
+        anitcipatedMove.setRect(super.getHitBox().getX() + speed, super.getHitBox().getY() + speed, super.getHitBox().getWidth(), super.getHitBox().getHeight());
 
         for (DynamicSprite sprite : PhysicsEngine.getDynamicSpriteList()) {
             if (isHero && !sprite.isHero && sprite.intersect(anitcipatedMove)) {
-                sprite.setHealth(sprite.getHealth()-this.attackValue);
+                sprite.setHealth(sprite.getHealth() - this.attackValue);
             }
         }
     }
 
-    
+
 }
 

@@ -11,7 +11,7 @@ import static enumerations.NumericalConstants.*;
 
 public class Main extends JPanel{
     private static int levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
-    private static int score = (int) INITIAL_VALUE.getNumericalValue();;
+    private static int score = (int) INITIAL_VALUE.getNumericalValue();
     private static Difficulty difficulty = Difficulty.EASY;
     private static JFrame displayZoneFrame;
 
@@ -25,7 +25,7 @@ public class Main extends JPanel{
     private static Timer aiTimer;
     private static Timer physicTimer;
 
-    private static double oldHeroHealth = (int) TOTAL_PERCENTAGE.getNumericalValue();;
+    private static double oldHeroHealth = (int) TOTAL_PERCENTAGE.getNumericalValue();
 
     public Main() {
         if (displayZoneFrame == null) {
@@ -37,14 +37,10 @@ public class Main extends JPanel{
             displayZoneFrame.setVisible(true);
         }
         displayZoneFrame.getContentPane().removeAll();
-        displayZoneFrame.getContentPane().add(new WelcomeScreen(displayZoneFrame));
+        displayZoneFrame.getContentPane().add(new WelcomeScreen());
         displayZoneFrame.revalidate();
         displayZoneFrame.repaint();
         SoundSystem.playBackgroundMusic();
-    }
-
-    public static RenderEngine getRenderEngine() {
-        return renderEngine;
     }
 
     public static void setOldHeroHealth(double oldHeroHealth) {
@@ -78,12 +74,13 @@ public class Main extends JPanel{
                     MONSTER_WIDTH.getNumericalValue(), MONSTER_HEIGHT.getNumericalValue(),
                     ImageIO.read(new File(IMAGE_PATH.getValue() + MONSTER_IMAGE_FILE_NAME.getValue())), MONSTER_NAME.getValue(),
                     false, levelNumber, (int)SPRITE_SHEET_NUMBER_OF_COLUMN.getNumericalValue(),
-                    TIME_BETWEEN_FRAME.getNumericalValue(), Direction.SOUTH, false, difficulty.getDifficultyValue());
+                     Direction.SOUTH, false, difficulty.getDifficultyValue());
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();
             gameEngine = new GameEngine(hero);
             aiEngine = new AiEngine(monster, hero);
+
 
             if (renderTimer != null) {
                 renderTimer.stop();

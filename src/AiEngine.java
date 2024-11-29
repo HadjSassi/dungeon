@@ -28,7 +28,6 @@ public class AiEngine implements Engine {
             double deltaY = heroY - monsterY;
             if (DISTANCE_MONSTER_TO_ATTACK.getNumericalValue() >= Math.abs(deltaX)
                     && DISTANCE_MONSTER_TO_ATTACK.getNumericalValue() >= Math.abs(deltaY)) {
-                //todo stop the monster to change direction or to stop from moving
                 catching = false;
                 monster.setDirection(hero.getDirection());
             } else if (catching && Math.abs(deltaX) > Math.abs(deltaY)) {

@@ -8,6 +8,7 @@ public enum StringConstants {
     HARD("Hard"),
     FIGHT_SOUND("fight.wav"),
     OUCH_SOUND("ouch.wav"),
+    BONUS_SOUND("bonus.wav"),
     DEAD_SOUND("dead.wav"),
     BG_SOUND("background_music.wav"),
     IMAGE_PATH("./img/"),
@@ -53,9 +54,7 @@ public enum StringConstants {
     POLICE_NAME("Arial"),
     LEVEL_HEADER_PATTERN("\\{(\\d+),(\\d+)\\}");
 
-
-    ;
-    private String value;
+    private final String value;
     StringConstants(String value) {
         this.value = value;
     }
