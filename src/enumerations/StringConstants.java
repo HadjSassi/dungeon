@@ -5,6 +5,7 @@
 package enumerations;
 
 public enum StringConstants {
+    GAME_ICON("mahdi.png"),
     GAME_NAME("Dungeon"),
     GREETINGS("Welcome to Dungeon!"),
     EASY("Easy"),

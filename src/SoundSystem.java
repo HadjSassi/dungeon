@@ -17,6 +17,10 @@ public class SoundSystem {
         playSound(AUDIO_PATH.getValue() + BONUS_SOUND.getValue());
     }
 
+    public static void playFightSound() {
+        playSound(AUDIO_PATH.getValue() + FIGHT_SOUND   .getValue());
+    }
+
     public static void playDeadSound() {
         playSound(AUDIO_PATH.getValue() + DEAD_SOUND.getValue());
     }

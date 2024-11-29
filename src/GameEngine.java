@@ -1,13 +1,8 @@
 import enumerations.Direction;
 import interfaces.Engine;
 
-import javax.sound.sampled.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
-
-import static enumerations.StringConstants.*;
 
 public class GameEngine implements KeyListener, Engine {
 
@@ -15,18 +10,6 @@ public class GameEngine implements KeyListener, Engine {
 
     public GameEngine(DynamicSprite hero) {
         this.hero = hero;
-    }
-
-    private void playFightSound() {
-        try {
-            File audioFile = new File(AUDIO_PATH.getValue() + FIGHT_SOUND.getValue());
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
@@ -49,7 +32,7 @@ public class GameEngine implements KeyListener, Engine {
                 break;
             case KeyEvent.VK_SPACE:
                 hero.attack();
-                playFightSound();
+                SoundSystem.playFightSound();
                 break;
 
         }

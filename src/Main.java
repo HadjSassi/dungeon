@@ -9,7 +9,7 @@ import java.util.Objects;
 import static enumerations.StringConstants.*;
 import static enumerations.NumericalConstants.*;
 
-public class Main extends JPanel{
+public class Main extends JPanel {
     private static int levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
     private static int score = (int) INITIAL_VALUE.getNumericalValue();
     private static Difficulty difficulty = Difficulty.EASY;
@@ -34,6 +34,12 @@ public class Main extends JPanel{
             displayZoneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             displayZoneFrame.setSize((int) WIDTH_SCREEN.getNumericalValue(), (int) HEIGHT_SCREEN.getNumericalValue());
             displayZoneFrame.setResizable(false);
+            try {
+                ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource(IMAGE_PATH.getValue() + GAME_ICON.getValue())));
+                displayZoneFrame.setIconImage(icon.getImage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
             displayZoneFrame.setVisible(true);
         }
         displayZoneFrame.getContentPane().removeAll();
@@ -51,11 +57,11 @@ public class Main extends JPanel{
         levelNumber++;
     }
 
-    public static Difficulty getDifficulty(){
+    public static Difficulty getDifficulty() {
         return Main.difficulty;
     }
 
-    public static void setDifficulty(Difficulty difficulty){
+    public static void setDifficulty(Difficulty difficulty) {
         Main.difficulty = difficulty;
     }
 
@@ -78,7 +84,7 @@ public class Main extends JPanel{
                     MONSTER_WIDTH.getNumericalValue(), MONSTER_HEIGHT.getNumericalValue(),
                     ImageIO.read(Objects.requireNonNull(Main.class.getResourceAsStream(IMAGE_PATH.getValue() + MONSTER_IMAGE_FILE_NAME.getValue()))),
                     MONSTER_NAME.getValue(),
-                    false, levelNumber, (int)SPRITE_SHEET_NUMBER_OF_COLUMN.getNumericalValue(),
+                    false, levelNumber, (int) SPRITE_SHEET_NUMBER_OF_COLUMN.getNumericalValue(),
                     Direction.SOUTH, false, difficulty.getDifficultyValue());
 
             renderEngine = new RenderEngine();
@@ -143,7 +149,7 @@ public class Main extends JPanel{
         if (renderTimer != null) {
             renderTimer.stop();
         }
-        int choice = JOptionPane.showOptionDialog(null, CONGRATS_MSG.getValue()+score,
+        int choice = JOptionPane.showOptionDialog(null, CONGRATS_MSG.getValue() + score,
                 CONGRATS_TITLE.getValue(), JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE, null,
                 new Object[]{EXIT.getValue(), RETRY.getValue()}, RETRY.getValue());
@@ -181,7 +187,7 @@ public class Main extends JPanel{
         }
     }
 
-    private static void exit(){
+    private static void exit() {
         System.exit((int) INITIAL_VALUE.getNumericalValue());
     }
 
@@ -189,7 +195,7 @@ public class Main extends JPanel{
      * This method resets the level to 1 and the hero health to 100 and relaunch the game with the same
      * difficulty
      * */
-    private static void reset(){
+    private static void reset() {
         levelNumber = (int) INITIAL_LEVEL.getNumericalValue();
         oldHeroHealth = TOTAL_PERCENTAGE.getNumericalValue();
         RenderEngine.resetTime();
