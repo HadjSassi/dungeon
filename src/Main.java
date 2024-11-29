@@ -3,8 +3,8 @@ import enumerations.Direction;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import static enumerations.StringConstants.*;
 import static enumerations.NumericalConstants.*;
@@ -72,13 +72,14 @@ public class Main extends JPanel{
             Playground newLevel = new Playground(DATA_PATH.getValue() + LEVEL_NAME.getValue() + levelNumber + LEVEL_FILE_EXTENSION.getValue());
             DynamicSprite hero = new DynamicSprite(HERO_POSX.getNumericalValue(), HERO_POSY.getNumericalValue(),
                     HERO_WIDTH.getNumericalValue(), HERO_HEIGHT.getNumericalValue(),
-                    ImageIO.read(new File(IMAGE_PATH.getValue() + HERO_IMAGE_FILE_NAME.getValue())),
+                    ImageIO.read(Objects.requireNonNull(Main.class.getResourceAsStream(IMAGE_PATH.getValue() + HERO_IMAGE_FILE_NAME.getValue()))),
                     HERO_NAME.getValue(), oldHeroHealth, true);
             DynamicSprite monster = new DynamicSprite(MONSTER_POSX.getNumericalValue(), MONSTER_POSY.getNumericalValue(),
                     MONSTER_WIDTH.getNumericalValue(), MONSTER_HEIGHT.getNumericalValue(),
-                    ImageIO.read(new File(IMAGE_PATH.getValue() + MONSTER_IMAGE_FILE_NAME.getValue())), MONSTER_NAME.getValue(),
+                    ImageIO.read(Objects.requireNonNull(Main.class.getResourceAsStream(IMAGE_PATH.getValue() + MONSTER_IMAGE_FILE_NAME.getValue()))),
+                    MONSTER_NAME.getValue(),
                     false, levelNumber, (int)SPRITE_SHEET_NUMBER_OF_COLUMN.getNumericalValue(),
-                     Direction.SOUTH, false, difficulty.getDifficultyValue());
+                    Direction.SOUTH, false, difficulty.getDifficultyValue());
 
             renderEngine = new RenderEngine();
             physicsEngine = new PhysicsEngine();

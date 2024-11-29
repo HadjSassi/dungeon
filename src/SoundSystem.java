@@ -1,6 +1,7 @@
 import javax.sound.sampled.*;
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import static enumerations.StringConstants.*;
 
@@ -9,15 +10,15 @@ public class SoundSystem {
     private static Clip backgroundMusicClip;
 
     public static void playOuchSound() {
-        playSound(AUDIO_PATH.getValue()+OUCH_SOUND.getValue());
+        playSound(AUDIO_PATH.getValue() + OUCH_SOUND.getValue());
     }
 
     public static void playBonusSound() {
-        playSound(AUDIO_PATH.getValue()+BONUS_SOUND.getValue());
+        playSound(AUDIO_PATH.getValue() + BONUS_SOUND.getValue());
     }
 
     public static void playDeadSound() {
-        playSound(AUDIO_PATH.getValue()+DEAD_SOUND.getValue());
+        playSound(AUDIO_PATH.getValue() + DEAD_SOUND.getValue());
     }
 
     /*
@@ -28,11 +29,18 @@ public class SoundSystem {
             if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
                 backgroundMusicClip.stop();
             }
-            File audioFile = new File(AUDIO_PATH.getValue()+BG_SOUND.getValue());
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            InputStream audioStream = SoundSystem.class.getResourceAsStream(AUDIO_PATH.getValue() + BG_SOUND.getValue());
+            if (audioStream == null) {
+                throw new IOException();
+            }
+
+            byte[] audioBytes = audioStream.readAllBytes();
+
+            InputStream byteArrayInputStream = new ByteArrayInputStream(audioBytes);
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
 
             backgroundMusicClip = AudioSystem.getClip();
-            backgroundMusicClip.open(audioStream);
+            backgroundMusicClip.open(inputStream);
 
             backgroundMusicClip.addLineListener(event -> {
                 if (event.getType() == LineEvent.Type.STOP) {
@@ -43,6 +51,7 @@ public class SoundSystem {
 
             backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
             backgroundMusicClip.start();
+
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.out.println(e.getMessage());
         }
@@ -53,10 +62,18 @@ public class SoundSystem {
      * */
     private static void playSound(String filePath) {
         try {
-            File audioFile = new File(filePath);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            InputStream audioStream = SoundSystem.class.getResourceAsStream(filePath);
+            if (audioStream == null) {
+                throw new IOException();
+            }
+
+            byte[] audioBytes = audioStream.readAllBytes();
+
+            InputStream byteArrayInputStream = new ByteArrayInputStream(audioBytes);
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(byteArrayInputStream);
+
             Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            clip.open(inputStream);
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             System.out.println(e.getMessage());
