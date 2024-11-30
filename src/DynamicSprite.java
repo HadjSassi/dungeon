@@ -244,7 +244,7 @@ public class DynamicSprite extends SolidSprite {
         this.speed = oldSpeed;
     }
 
-    /*
+    /*@
      * This method calculate a threaten radius that can hurt an enemy if is in this radius
      * */
     public void attack() {
